@@ -1,0 +1,2 @@
+# файл базы SQLite — полностью закрыть от веба
+Require all denied

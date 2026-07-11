@@ -1,0 +1,24 @@
+# ChaiCore — Apache (Hostinger)
+
+# index.php имеет приоритет над index.html
+DirectoryIndex index.php index.html
+
+# UTF-8 по умолчанию
+AddDefaultCharset UTF-8
+
+# Запретить листинг каталогов
+Options -Indexes
+
+# Закрыть доступ к служебным PHP-файлам напрямую из браузера
+<FilesMatch "^(config|functions|content-defaults)\.php$">
+  Require all denied
+</FilesMatch>
+
+# Кэш статики
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png  "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType text/css   "access plus 7 days"
+</IfModule>

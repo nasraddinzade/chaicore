@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChaiCore — Azərbaycan Çay Mədəniyyəti</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Raleway:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+  <style>
+    /* ── RESET ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Brand palette */
+      --navy:        #090126;
+      --navy-2:      #0e0535;
+      --navy-3:      #160a45;
+      --crimson:     #A6142F;
+      --crimson-2:   #c41a39;
+      --crimson-dim: #6b0d1e;
+      --orange:      #D97823;
+      --orange-2:    #e8922e;
+      --orange-dim:  #8a4b10;
+      --cream:       #F2C299;
+      --cream-2:     #fad5b5;
+      --cream-dim:   #b07a4e;
+      --red:         #BF0F0F;
+      --green:       #4a7c59;
+      --text:        #d4b89a;
+      --text-dim:    #8a6d55;
+      --white:       #fff8f0;
+      --r:           6px;
+      --t:           .35s cubic-bezier(.4,0,.2,1);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--text); line-height: 1.7; overflow-x: hidden; max-width: 100vw; }
+    img  { display: block; width: 100%; object-fit: cover; }
+    a    { text-decoration: none; color: inherit; }
+    ul   { list-style: none; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 100px 0; overflow: hidden; }
+
+    /* ── TYPOGRAPHY ─────────────────────────────────── */
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--cream); line-height: 1.2; }
+
+    .section-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--orange);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 18px; }
+    .section-lead {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text);
+      max-width: 660px;
+    }
+    .section-header { margin-bottom: 60px; }
+    .section-header.centered { text-align: center; }
+    .section-header.centered .section-lead { margin: 0 auto; }
+
+    /* ── ORNAMENT ───────────────────────────────────── */
+    .ornament {
+      display: flex; align-items: center; gap: 12px; margin: 18px 0;
+    }
+    .ornament::before, .ornament::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange-dim), transparent);
+    }
+    .ornament i { color: var(--orange); font-size: .75rem; }
+
+    /* ── BUTTONS ────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 13px 34px; border-radius: var(--r);
+      font-family: 'Raleway', sans-serif; font-size: .82rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; transition: var(--t); border: none;
+    }
+    .btn-crimson {
+      background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-2) 50%, var(--crimson) 100%);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(166,20,47,.4);
+    }
+    .btn-crimson:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(166,20,47,.6); }
+
+    .btn-orange {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-2) 50%, var(--orange) 100%);
+      color: var(--navy);
+      box-shadow: 0 4px 24px rgba(217,120,35,.35);
+    }
+    .btn-orange:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(217,120,35,.5); }
+
+    .btn-outline {
+      border: 1px solid var(--orange-dim);
+      color: var(--orange);
+      background: transparent;
+    }
+    .btn-outline:hover { background: rgba(217,120,35,.1); border-color: var(--orange); }
+
+    /* ── NAVBAR ─────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 0 24px; transition: var(--t);
+    }
+    #navbar.scrolled {
+      background: rgba(9,1,38,.96);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 2px 30px rgba(0,0,0,.7);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; height: 70px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; }
+    .nav-logo-img {
+      width: 44px; height: 44px; object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(217,120,35,.4));
+    }
+    .nav-logo-text {
+      font-family: 'Raleway', sans-serif; font-size: 1.2rem;
+      font-weight: 700; color: var(--cream);
+      letter-spacing: .12em;
+    }
+    .nav-logo-sub {
+      font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 500; color: beige;;
+       letter-spacing: .18em; display: block; margin-top: -4px;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 30px;
+    }
+    .nav-links a {
+      font-family: 'Raleway', sans-serif; font-size: .72rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text); transition: color var(--t); position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--orange);
+      transform: scaleX(0); transition: transform var(--t);
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-right { display: flex; align-items: center; gap: 18px; }
+
+    .lang-switch { display: flex; gap: 3px; }
+    .lang-btn {
+      font-family: 'Raleway', sans-serif; font-size: .68rem; font-weight: 600;
+      letter-spacing: .08em; padding: 4px 8px;
+      border-radius: 3px; border: 1px solid transparent;
+      background: transparent; color: var(--text-dim);
+      cursor: pointer; transition: var(--t);
+    }
+    .lang-btn.active, .lang-btn:hover { border-color: var(--orange-dim); color: var(--orange); }
+
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--orange); border-radius: 2px; transition: var(--t); }
+
+    /* ── HERO ───────────────────────────────────────── */
+    #hero {
+      min-height: 100vh; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
+    }
+    .hero-bg-img {
+      position: absolute; inset: 0;
+    }
+    .hero-bg-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(.25) saturate(1.3);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 40%, rgba(166,20,47,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 50% at 80% 80%, rgba(217,120,35,.1) 0%, transparent 55%),
+        linear-gradient(to bottom, rgba(9,1,38,.3) 0%, rgba(9,1,38,.7) 100%);
+    }
+
+    /* particles */
+    .particles { position: absolute; inset: 0; pointer-events: none; }
+    .particle {
+      position: absolute; width: 2px; height: 2px;
+      background: var(--orange); border-radius: 50%;
+      animation: float-p linear infinite; opacity: 0;
+    }
+    @keyframes float-p {
+      0%   { transform: translateY(100vh); opacity: 0; }
+      10%  { opacity: .5; }
+      90%  { opacity: .3; }
+      100% { transform: translateY(-20px) translateX(20px); opacity: 0; }
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 860px; padding: 130px 24px 90px;
+    }
+    .hero-logo-wrap {
+      width: 150px; height: 150px; margin: 0 auto 36px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-logo-wrap img {
+      width: 100%; height: 100%; object-fit: contain;
+      filter: drop-shadow(0 0 30px rgba(217,120,35,.55));
+      animation: glow-pulse 3s ease-in-out infinite alternate;
+    }
+    @keyframes glow-pulse {
+      from { filter: drop-shadow(0 0 18px rgba(217,120,35,.35)); }
+      to   { filter: drop-shadow(0 0 45px rgba(217,120,35,.75)); }
+    }
+    .hero-eyebrow {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 1.1rem; color: var(--orange-dim);
+      letter-spacing: .22em; margin-bottom: 14px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 9vw, 6.5rem); font-weight: 700;
+      letter-spacing: .15em; line-height: 1;
+      background: linear-gradient(135deg, var(--orange-dim) 0%, var(--cream-2) 45%, var(--orange) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 8px;
+    }
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--cream-dim); letter-spacing: .1em; margin-bottom: 24px;
+    }
+    .hero-desc {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.18rem); color: var(--text-dim);
+      max-width: 600px; margin: 0 auto 44px;
+    }
+    .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    .hero-scroll {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+      color: var(--orange-dim); font-family: 'Raleway', sans-serif; font-weight: 600;
+      font-size: .58rem; letter-spacing: .2em; text-transform: uppercase;
+      animation: bounce-s 2s ease-in-out infinite;
+    }
+    @keyframes bounce-s {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── ABOUT ──────────────────────────────────────── */
+    #about { background: var(--navy-2); }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .about-imgs {
+      position: relative; height: 540px;
+    }
+    .about-img-main {
+      position: absolute; top: 0; left: 0; width: 70%; height: 78%;
+      border-radius: var(--r); overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .about-img-main img { height: 100%; }
+    .about-img-accent {
+      position: absolute; bottom: 0; right: 0; width: 55%; height: 52%;
+      border-radius: var(--r); overflow: hidden; border: 3px solid var(--navy-2);
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .about-img-accent img { height: 100%; }
+    .about-badge {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 84px; height: 84px; border-radius: 50%;
+      background: var(--navy-2); border: 2px solid var(--crimson);
+      display: flex; align-items: center; justify-content: center; z-index: 3;
+    }
+    .about-badge img { width: 52px; height: 52px; object-fit: contain; }
+    .about-badge i { font-size: 2rem; color: var(--crimson); }
+
+    .about-text p { color: var(--text); margin-bottom: 14px; font-size: .95rem; }
+    .about-text p:last-of-type { margin-bottom: 32px; }
+
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 36px;
+    }
+    .stat-card {
+      background: var(--navy-3); border: 1px solid rgba(217,120,35,.15);
+      border-radius: var(--r); padding: 22px; text-align: center; transition: var(--t);
+    }
+    .stat-card:hover { border-color: var(--orange-dim); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--orange); line-height: 1; }
+    .stat-label { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: .9rem; color: var(--text-dim); margin-top: 5px; }
+
+    /* ── PHILOSOPHY ─────────────────────────────────── */
+    #philosophy { background: var(--navy); }
+
+    .phil-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+
+    .phil-card {
+      background: var(--navy-2); border: 1px solid rgba(217,120,35,.1);
+      border-radius: var(--r); padding: 40px 28px; text-align: center;
+      position: relative; overflow: hidden; transition: var(--t);
+    }
+    .phil-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--crimson), transparent);
+      transform: scaleX(0); transition: transform var(--t);
+    }
+    .phil-card:hover { transform: translateY(-5px); border-color: var(--crimson-dim); }
+    .phil-card:hover::before { transform: scaleX(1); }
+
+    .phil-icon {
+      width: 66px; height: 66px; margin: 0 auto 22px;
+      background: rgba(166,20,47,.1); border: 1px solid var(--crimson-dim);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .phil-icon i { font-size: 1.5rem; color: var(--crimson-2); }
+    .phil-card h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--cream); }
+    .phil-card p  { font-size: .88rem; color: var(--text-dim); }
+
+    /* ── SERVICES ───────────────────────────────────── */
+    #services { background: var(--navy-2); }
+
+    .services-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; }
+
+    .svc-card {
+      display: grid; grid-template-columns: 64px 1fr; gap: 20px; align-items: start;
+      background: var(--navy-3); border: 1px solid rgba(217,120,35,.1);
+      border-radius: var(--r); padding: 28px; transition: var(--t);
+    }
+    .svc-card:hover { border-color: var(--orange-dim); background: var(--navy-2); }
+    .svc-icon {
+      width: 52px; height: 52px; background: rgba(217,120,35,.08);
+      border: 1px solid var(--orange-dim); border-radius: var(--r);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .svc-icon i { font-size: 1.3rem; color: var(--orange); }
+    .svc-body h3 { font-size: 1rem; margin-bottom: 9px; color: var(--cream); }
+    .svc-body p  { font-size: .87rem; color: var(--text-dim); }
+
+    /* ── CEREMONY ───────────────────────────────────── */
+    #ceremony {
+      background: var(--navy); position: relative; overflow: hidden;
+    }
+    #ceremony::before {
+      content: ''; position: absolute; top: -30%; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(166,20,47,.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .ceremony-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+
+    .ceremony-img {
+      height: 560px; border-radius: var(--r); overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,.5);
+      position: relative;
+    }
+    .ceremony-img img { height: 100%; object-fit: cover; object-position: top; }
+    .ceremony-img-badge {
+      position: absolute; bottom: 24px; left: 24px;
+      background: rgba(9,1,38,.85); backdrop-filter: blur(8px);
+      border: 1px solid var(--crimson-dim); border-radius: var(--r);
+      padding: 14px 20px; display: flex; align-items: center; gap: 12px;
+    }
+    .ceremony-img-badge i { color: var(--crimson-2); font-size: 1.2rem; }
+    .ceremony-img-badge span {
+      font-family: 'Raleway', sans-serif; font-weight: 600; font-size: .75rem; color: var(--cream); letter-spacing: .08em;
+    }
+
+    .ceremony-steps { display: flex; flex-direction: column; gap: 28px; margin-top: 36px; }
+    .step { display: flex; gap: 18px; align-items: flex-start; }
+    .step-num {
+      font-family: 'Playfair Display', serif; font-size: 1.8rem;
+      color: rgba(217,120,35,.2); line-height: 1; flex-shrink: 0; width: 44px;
+    }
+    .step-body h4 { font-size: .98rem; margin-bottom: 5px; color: var(--orange); }
+    .step-body p  { font-size: .87rem; color: var(--text-dim); }
+
+    /* ── TEAM ───────────────────────────────────────── */
+    #team { background: var(--navy-2); }
+
+    .team-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
+
+    .team-card {
+      background: var(--navy-3); border: 1px solid rgba(217,120,35,.1);
+      border-radius: var(--r); overflow: hidden; transition: var(--t);
+      text-align: center;
+    }
+    .team-card:hover { transform: translateY(-6px); border-color: var(--crimson-dim); }
+    .team-photo { height: 320px; overflow: hidden; position: relative; }
+    .team-photo img { height: 100%; object-fit: cover; object-position: top; transition: transform .5s ease; }
+    .team-card:hover .team-photo img { transform: scale(1.04); }
+    .team-info { padding: 24px; }
+    .team-name { font-size: 1.05rem; color: var(--cream); margin-bottom: 6px; }
+    .team-role {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .95rem; color: var(--orange-dim);
+    }
+    .team-divider {
+      width: 40px; height: 1px; background: var(--crimson-dim);
+      margin: 12px auto; border-radius: 1px;
+    }
+    .team-desc { font-size: .83rem; color: var(--text-dim); }
+
+    /* ── GALLERY ────────────────────────────────────── */
+    #gallery { background: var(--navy); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      grid-auto-rows: 220px;
+      gap: 14px;
+    }
+    .g-item {
+      border-radius: var(--r); overflow: hidden; cursor: pointer;
+      position: relative; transition: var(--t);
+    }
+    .g-item:hover { transform: scale(1.02); z-index: 2; }
+    .g-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+    .g-item:hover img { transform: scale(1.07); }
+    .g-item.wide { grid-column: span 2; }
+    .g-item.tall { grid-row: span 2; }
+    .g-overlay {
+      position: absolute; inset: 0;
+      background: rgba(9,1,38,.0); transition: var(--t);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .g-overlay i { color: white; font-size: 1.5rem; opacity: 0; transition: var(--t); }
+    .g-item:hover .g-overlay { background: rgba(9,1,38,.35); }
+    .g-item:hover .g-overlay i { opacity: 1; }
+
+    /* ── TESTIMONIALS ───────────────────────────────── */
+    #testimonials { background: var(--navy-2); }
+
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .testi-card {
+      background: var(--navy-3); border: 1px solid rgba(217,120,35,.1);
+      border-radius: var(--r); padding: 32px; position: relative;
+    }
+    .testi-card::before {
+      content: '\201C'; font-family: 'Playfair Display', serif;
+      font-size: 4rem; color: var(--crimson-dim); opacity: .4;
+      position: absolute; top: 10px; left: 22px; line-height: 1;
+    }
+    .testi-stars { color: var(--orange); margin-bottom: 14px; font-size: .82rem; }
+    .testi-text {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 1.03rem; color: var(--text); margin-bottom: 22px; line-height: 1.8;
+    }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-av {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1px dashed var(--orange-dim); overflow: hidden; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .testi-av img { width: 100%; height: 100%; object-fit: cover; }
+    .testi-av i { color: var(--orange-dim); font-size: 1.2rem; }
+    .testi-name { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: .78rem; color: var(--cream); }
+    .testi-role { font-size: .76rem; color: var(--text-dim); margin-top: 2px; }
+
+    /* ── CONTACT ────────────────────────────────────── */
+    #contact { background: var(--navy); }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 72px; align-items: start; }
+
+    .contact-items { display: flex; flex-direction: column; gap: 16px; }
+    .contact-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 18px; background: var(--navy-2);
+      border: 1px solid rgba(217,120,35,.1); border-radius: var(--r); transition: var(--t);
+    }
+    .contact-item:hover { border-color: var(--orange-dim); }
+    .ci-icon {
+      width: 42px; height: 42px; background: rgba(217,120,35,.08);
+      border-radius: var(--r); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .ci-icon i { color: var(--orange); font-size: .95rem; }
+    .ci-label {
+      font-family: 'Raleway', sans-serif; font-weight: 600; font-size: .66rem; letter-spacing: .12em;
+      color: var(--orange-dim); text-transform: uppercase; margin-bottom: 3px;
+    }
+    .ci-val { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--text); font-style: italic; }
+
+    .social-row { display: flex; gap: 10px; margin-top: 24px; }
+    .soc-btn {
+      width: 42px; height: 42px; border: 1px solid var(--orange-dim);
+      border-radius: var(--r); display: flex; align-items: center; justify-content: center;
+      color: var(--orange-dim); transition: var(--t); font-size: .95rem;
+    }
+    .soc-btn:hover { background: rgba(217,120,35,.1); color: var(--orange); border-color: var(--orange); }
+
+    .map-ph {
+      margin-top: 28px; height: 190px; border-radius: var(--r);
+      background: var(--navy-2); border: 1px dashed var(--orange-dim);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; color: var(--orange-dim);
+    }
+    .map-ph i { font-size: 2rem; }
+    .map-ph span { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
+
+    .contact-form {
+      background: var(--navy-2); border: 1px solid rgba(217,120,35,.12);
+      border-radius: var(--r); padding: 42px;
+    }
+    .contact-form h3 { font-size: 1.25rem; margin-bottom: 28px; color: var(--cream); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+    .form-group label {
+      font-family: 'Raleway', sans-serif; font-weight: 600; font-size: .64rem;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--orange-dim);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--navy-3); border: 1px solid rgba(217,120,35,.15);
+      border-radius: var(--r); padding: 11px 14px;
+      color: var(--cream); font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; outline: none; transition: var(--t);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--orange-dim); }
+    .form-group textarea { resize: vertical; min-height: 105px; }
+    .form-group select option { background: var(--navy-3); }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    footer {
+      background: var(--navy-2);
+      border-top: 1px solid rgba(217,120,35,.1);
+      padding: 60px 0 28px;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 44px; margin-bottom: 44px; }
+    .footer-brand p {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .98rem; color: var(--text-dim); max-width: 270px; line-height: 1.6;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .footer-logo img { width: 38px; height: 38px; object-fit: contain; }
+
+    .footer-col h4 {
+      font-family: 'Raleway', sans-serif; font-weight: 700; font-size: .7rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--orange-dim); margin-bottom: 18px;
+    }
+    .footer-col ul li { margin-bottom: 9px; }
+    .footer-col ul li a {
+      font-family: 'Cormorant Garamond', serif; font-size: .95rem;
+      color: var(--text-dim); transition: color var(--t);
+    }
+    .footer-col ul li a:hover { color: var(--orange); }
+
+    .footer-newsletter p {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .95rem; color: var(--text-dim); margin-bottom: 14px;
+    }
+    .footer-form {
+      display: flex; border: 1px solid rgba(217,120,35,.2);
+      border-radius: var(--r); overflow: hidden;
+    }
+    .footer-form input {
+      flex: 1; background: var(--navy-3); border: none;
+      padding: 10px 13px; color: var(--cream);
+      font-family: 'Cormorant Garamond', serif; font-size: .95rem; outline: none;
+    }
+    .footer-form button {
+      background: var(--orange); border: none; padding: 10px 14px;
+      color: var(--navy); cursor: pointer; transition: var(--t);
+    }
+    .footer-form button:hover { background: var(--orange-2); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(217,120,35,.08);
+      padding-top: 22px; display: flex;
+      justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .footer-copy { font-size: .78rem; color: var(--text-dim); font-family: 'Cormorant Garamond', serif; }
+
+    /* ── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .about-grid, .ceremony-inner, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .phil-grid, .testi-grid, .team-grid { grid-template-columns: 1fr 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2,1fr); }
+      .g-item.wide { grid-column: span 1; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .about-imgs { height: 420px; }
+      .ceremony-img { height: 420px; }
+      section { padding: 70px 0; }
+    }
+    @media (max-width: 580px) {
+      section { padding: 56px 0; }
+      .section-header { margin-bottom: 36px; }
+
+      /* nav */
+      .nav-logo-sub.active { display: block !important; font-size: .6rem; letter-spacing: .12em; }
+      #navbar { padding: 0 16px; }
+
+      /* hero */
+      .hero-content { padding: 110px 20px 70px; }
+      .hero-logo-wrap { width: 110px; height: 110px; margin-bottom: 24px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .hero-actions .btn { width: 100%; max-width: 280px; justify-content: center; }
+
+      /* about */
+      .about-imgs { height: 320px; }
+      .about-img-main { width: 75%; height: 72%; }
+      .about-img-accent { width: 60%; height: 50%; }
+      .about-stats { grid-template-columns: 1fr 1fr; gap: 14px; }
+
+      /* grids */
+      .phil-grid, .testi-grid, .team-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+
+      /* hide gallery & team on mobile */
+      #gallery, #team { display: none; }
+
+      /* shorten philosophy — show only first 3 cards */
+      .phil-card:nth-child(n+4) { display: none; }
+      .phil-grid { grid-template-columns: 1fr; }
+
+      /* typography scale-up */
+      .section-title { font-size: 1.9rem; }
+      .section-lead { font-size: 1.05rem; }
+      .hero-eyebrow { font-size: 1rem; }
+      .hero-subtitle { font-size: 1.15rem; }
+      .hero-desc { font-size: 1.05rem; }
+      .phil-card h3, .svc-body h3, .step-body h4, .testi-text { font-size: 1rem; }
+      .phil-card p, .svc-body p, .step-body p, .about-text p { font-size: .95rem; }
+      .stat-num { font-size: 1.7rem; }
+      .stat-label { font-size: .9rem; }
+      .btn { font-size: .85rem; padding: 14px 28px; }
+      .footer-col p, .footer-col li, .footer-copy { font-size: .9rem; }
+      .ci-label { font-size: .85rem; }
+      .ci-val { font-size: .9rem; }
+      .form-group label { font-size: .88rem; }
+      .testi-name { font-size: 1rem; }
+      .testi-loc { font-size: .88rem; }
+      .section-tag { font-size: .78rem; }
+      .nav-logo-text { font-size: 1.1rem; }
+      .nav-logo-sub.active { font-size: .8rem !important; }
+
+      /* ceremony */
+      .ceremony-img { height: 280px; }
+      .ceremony-img-badge { bottom: 14px; left: 14px; padding: 10px 14px; }
+      .ceremony-inner { gap: 32px; }
+
+      /* contact info items */
+      .contact-items { gap: 12px; }
+
+      /* footer */
+      .footer-bottom { flex-direction: column; text-align: center; }
+
+      /* band */
+      .band-inner { flex-direction: column; text-align: center; gap: 12px; }
+    }
+
+    @media (max-width: 400px) {
+      .hero-title { letter-spacing: .08em; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .lang-btn { padding: 3px 6px; font-size: .6rem; }
+    }
+    .nav-mobile-open .nav-links {
+      display: flex; flex-direction: column;
+      position: fixed; top: 70px; left: 0; right: 0;
+      background: rgba(9,1,38,.98); backdrop-filter: blur(14px);
+      padding: 28px 24px; gap: 24px;
+      border-bottom: 1px solid rgba(217,120,35,.1);
+    }
+
+    /* ── LANG VISIBILITY ────────────────────────────── */
+    [data-lang]         { display: none; }
+    [data-lang].active  { display: block; }
+    [data-lang-i]       { display: none; }
+    [data-lang-i].active { display: inline; }
+
+    /* ── CRIMSON BAND ───────────────────────────────── */
+    .crimson-band {
+      background: var(--crimson);
+      padding: 20px 0;
+    }
+    .band-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+    }
+    .band-text {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 1.05rem; color: rgba(255,255,255,.9);
+    }
+    .band-cta {
+      font-family: 'Raleway', sans-serif; font-weight: 600; font-size: .78rem; letter-spacing: .1em;
+      color: var(--cream-2); border-bottom: 1px solid rgba(242,194,153,.4);
+      padding-bottom: 2px; transition: var(--t);
+    }
+    .band-cta:hover { color: #fff; border-color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════ NAVBAR ════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      <img src="assets/photo_2026-04-11 20.21.39 1.png" alt="ChaiCore" class="nav-logo-img" />
+      <div>
+        <!-- <span class="nav-logo-text">ChaiCore</span> -->
+        <span class="nav-logo-sub" data-lang-i="az">Çay Mədəniyyəti</span>
+        <span class="nav-logo-sub" data-lang-i="ru">Чайная Культура</span>
+        <span class="nav-logo-sub" data-lang-i="en">Tea Culture</span>
+      </div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#about"       data-lang-i="az">Haqqımızda</a><a href="#about"       data-lang-i="ru">О нас</a><a href="#about"       data-lang-i="en">About</a></li>
+      <li><a href="#philosophy"  data-lang-i="az">Fəlsəfə</a><a href="#philosophy"  data-lang-i="ru">Философия</a><a href="#philosophy"  data-lang-i="en">Philosophy</a></li>
+      <li><a href="#services"    data-lang-i="az">Xidmətlər</a><a href="#services"    data-lang-i="ru">Услуги</a><a href="#services"    data-lang-i="en">Services</a></li>
+      <li><a href="#gallery"     data-lang-i="az">Qalereya</a><a href="#gallery"     data-lang-i="ru">Галерея</a><a href="#gallery"     data-lang-i="en">Gallery</a></li>
+      <li><a href="#contact"     data-lang-i="az">Əlaqə</a><a href="#contact"     data-lang-i="ru">Контакты</a><a href="#contact"     data-lang-i="en">Contact</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('az')">AZ</button>
+        <button class="lang-btn" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+      <div class="nav-toggle" onclick="toggleNav()"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section id="hero">
+  <div class="hero-bg-img">
+    <img src="assets/image 2.png" alt="background" />
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-content">
+    <div class="hero-logo-wrap">
+      <img src="assets/Group 13-1.png" alt="ChaiCore Logo" />
+    </div>
+
+    <!-- AZ -->
+    <div data-lang="az">
+      <p class="hero-eyebrow">Azərbaycan Çay Mədəniyyəti</p>
+      <h1 class="hero-title">ÇAYCORE</h1>
+      <p class="hero-subtitle">Ənənə · Fəlsəfə · Ritual</p>
+      <div class="ornament"><i class="fa-solid fa-leaf"></i></div>
+      <p class="hero-desc">Şərq çay ənənələri ilə Azərbaycan qonaqpərvərliyinin unikal sintezi — çayın ətrafında doğan mədəniyyət, tarix və hekayə.</p>
+      <div class="hero-actions">
+        <a href="#ceremony" class="btn btn-crimson"><i class="fa-solid fa-mug-hot"></i> Mərasimi Kəşf Et</a>
+        <a href="#contact" class="btn btn-outline"><i class="fa-solid fa-calendar"></i> Rezervasiya</a>
+      </div>
+    </div>
+    <!-- RU -->
+    <div data-lang="ru">
+      <p class="hero-eyebrow">Азербайджанская Чайная Культура</p>
+      <h1 class="hero-title">ЧАЙCORE</h1>
+      <p class="hero-subtitle">Традиция · Философия · Ритуал</p>
+      <div class="ornament"><i class="fa-solid fa-leaf"></i></div>
+      <p class="hero-desc">Уникальный синтез восточных чайных традиций и азербайджанского гостеприимства — культура, история и истории, рождённые вокруг чая.</p>
+      <div class="hero-actions">
+        <a href="#ceremony" class="btn btn-crimson"><i class="fa-solid fa-mug-hot"></i> Открыть Церемонию</a>
+        <a href="#contact" class="btn btn-outline"><i class="fa-solid fa-calendar"></i> Забронировать</a>
+      </div>
+    </div>
+    <!-- EN -->
+    <div data-lang="en">
+      <p class="hero-eyebrow">Azerbaijani Tea Culture</p>
+      <h1 class="hero-title">CHAICORE</h1>
+      <p class="hero-subtitle">Tradition · Philosophy · Ritual</p>
+      <div class="ornament"><i class="fa-solid fa-leaf"></i></div>
+      <p class="hero-desc">A unique synthesis of Eastern tea traditions and Azerbaijani hospitality — culture, history and stories born around a cup of tea.</p>
+      <div class="hero-actions">
+        <a href="#ceremony" class="btn btn-crimson"><i class="fa-solid fa-mug-hot"></i> Discover Ceremony</a>
+        <a href="#contact" class="btn btn-outline"><i class="fa-solid fa-calendar"></i> Book a Session</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></div>
+</section>
+
+<!-- CRIMSON BAND -->
+<div class="crimson-band">
+  <div class="band-inner">
+    <p class="band-text" data-lang="az">Çay mərasimləri, dequstasiyalar, master-klaslar və korporativ tədbirlər</p>
+    <p class="band-text" data-lang="ru">Чайные церемонии, дегустации, мастер-классы и корпоративные мероприятия</p>
+    <p class="band-text" data-lang="en">Tea ceremonies, tastings, master classes and corporate events</p>
+    <a href="#contact" class="band-cta" data-lang-i="az">Rezervasiya et →</a>
+    <a href="#contact" class="band-cta" data-lang-i="ru">Забронировать →</a>
+    <a href="#contact" class="band-cta" data-lang-i="en">Book Now →</a>
+  </div>
+</div>
+
+<!-- ════════════════ ABOUT ════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <!-- Images -->
+      <div class="about-imgs" data-aos="fade-right">
+        <div class="about-img-main">
+          <img src="assets/freepik__design-a-minimalistic-symbolic-culturally-rich-log__93620 1.png" alt="ChaiCore Master" />
+        </div>
+        <div class="about-img-accent">
+          <img src="assets/freepik__design-a-symbolic-culturally-rich-logo-for-a-tea-b__93599 1.png" alt="ChaiCore Uniform" />
+        </div>
+        <div class="about-badge">
+          <img src="assets/Mask group-1.png" alt="Dragon" />
+        </div>
+      </div>
+
+      <!-- AZ -->
+      <div class="about-text" data-lang="az" data-aos="fade-left">
+        <span class="section-tag">Bizim Haqqımızda</span>
+        <h2 class="section-title">Çayın Arxasındakı Hekayə</h2>
+        <div class="ornament"><i class="fa-solid fa-leaf"></i></div>
+        <p>ChaiCore — Azərbaycanın çay içmə ənənələrinə əsaslanan, Çin çay mədəniyyətinin fəlsəfəsi və estetikası ilə ilhamlanan yeni nəsil mədəni layihəsidir.</p>
+        <p>Layihə Şərq çay ənənələri ilə Azərbaycan qonaqpərvərliyinin unikal sintezini təqdim edərək, qonaqlara Azərbaycanın çay tarixini, mədəniyyətini və ritualını fərqli bir təcrübə ilə tanıdır.</p>
+        <p>Hər bir mərasim çayın tarixini, arxiv faktlarını, dəmləmə xüsusiyyətlərini, çaynik və armudu stəkanın mənasını əhatə edən maraqlı hekayələrlə müşayiət olunur.</p>
+        <a href="#services" class="btn btn-orange"><i class="fa-solid fa-arrow-right"></i> Xidmətlər</a>
+        <div class="about-stats">
+          <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Keçirilmiş Mərasim</div></div>
+          <div class="stat-card"><div class="stat-num">20+</div><div class="stat-label">Çay Növü</div></div>
+          <div class="stat-card"><div class="stat-num">50+</div><div class="stat-label">Tərəfdaş Otel</div></div>
+          <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">İl Təcrübə</div></div>
+        </div>
+      </div>
+
+      <!-- RU -->
+      <div class="about-text" data-lang="ru" data-aos="fade-left">
+        <span class="section-tag">О Нас</span>
+        <h2 class="section-title">История За Чашкой Чая</h2>
+        <div class="ornament"><i class="fa-solid fa-leaf"></i></div>
+        <p>ChaiCore — культурный проект нового поколения, основанный на традициях азербайджанского чаепития и вдохновлённый философией и эстетикой китайской чайной культуры.</p>
+        <p>Проект представляет уникальный синтез восточных чайных традиций и азербайджанского гостеприимства, знакомя гостей с историей, культурой и ритуалом азербайджанского чая.</p>
+        <p>Каждая церемония сопровождается интересными историями, охватывающими историю чая, архивные факты, особенности заваривания и значение армуды-стакана.</p>
+        <a href="#services" class="btn btn-orange"><i class="fa-solid fa-arrow-right"></i> Услуги</a>
+        <div class="about-stats">
+          <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Церемоний Проведено</div></div>
+          <div class="stat-card"><div class="stat-num">20+</div><div class="stat-label">Видов Чая</div></div>
+          <div class="stat-card"><div class="stat-num">50+</div><div class="stat-label">Отелей-Партнёров</div></div>
+          <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Года Опыта</div></div>
+        </div>
+      </div>
+
+      <!-- EN -->
+      <div class="about-text" data-lang="en" data-aos="fade-left">
+        <span class="section-tag">About Us</span>
+        <h2 class="section-title">The Story Behind the Cup</h2>
+        <div class="ornament"><i class="fa-solid fa-leaf"></i></div>
+        <p>ChaiCore is a next-generation cultural project rooted in Azerbaijani tea-drinking traditions, inspired by the philosophy and aesthetics of Chinese tea culture.</p>
+        <p>The project presents a unique synthesis of Eastern tea traditions and Azerbaijani hospitality, immersing guests in the history, culture and rituals of Azerbaijani tea.</p>
+        <p>Each ceremony is accompanied by captivating narratives covering the history of tea, archival facts, brewing techniques and the symbolism of the armudu glass.</p>
+        <a href="#services" class="btn btn-orange"><i class="fa-solid fa-arrow-right"></i> Our Services</a>
+        <div class="about-stats">
+          <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Ceremonies Held</div></div>
+          <div class="stat-card"><div class="stat-num">20+</div><div class="stat-label">Tea Varieties</div></div>
+          <div class="stat-card"><div class="stat-num">50+</div><div class="stat-label">Partner Hotels</div></div>
+          <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Years Experience</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PHILOSOPHY ════════════════ -->
+<section id="philosophy">
+  <div class="container">
+
+    <div class="section-header centered" data-lang="az" data-aos="fade-up">
+      <span class="section-tag">Dəyərlərimiz</span>
+      <h2 class="section-title">Çay Fəlsəfəmiz</h2>
+      <div class="ornament"><i class="fa-solid fa-yin-yang"></i></div>
+      <p class="section-lead">Çay yalnız içki deyil — o, mədəniyyətin, fəlsəfənin və ünsiyyətin ayrılmaz hissəsidir.</p>
+    </div>
+    <div class="section-header centered" data-lang="ru" data-aos="fade-up">
+      <span class="section-tag">Наши Ценности</span>
+      <h2 class="section-title">Наша Чайная Философия</h2>
+      <div class="ornament"><i class="fa-solid fa-yin-yang"></i></div>
+      <p class="section-lead">Чай — не просто напиток, он является неотъемлемой частью культуры, философии и общения.</p>
+    </div>
+    <div class="section-header centered" data-lang="en" data-aos="fade-up">
+      <span class="section-tag">Our Values</span>
+      <h2 class="section-title">Our Tea Philosophy</h2>
+      <div class="ornament"><i class="fa-solid fa-yin-yang"></i></div>
+      <p class="section-lead">Tea is not merely a beverage — it is an inseparable part of culture, philosophy and communication.</p>
+    </div>
+
+    <div class="phil-grid">
+      <div class="phil-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="phil-icon"><i class="fa-solid fa-scroll"></i></div>
+        <h3 data-lang="az">Tarix</h3><h3 data-lang="ru">История</h3><h3 data-lang="en">History</h3>
+        <p data-lang="az">Çayın Azərbaycana gəlişindən bugünə qədər əsrlik yolunu kəşf edirik, qədim mənbələri gündəmə gətiririk.</p>
+        <p data-lang="ru">Исследуем вековой путь чая в Азербайджане, поднимая древние источники и архивные факты.</p>
+        <p data-lang="en">We explore the centuries-long journey of tea in Azerbaijan, surfacing ancient sources and archival facts.</p>
+      </div>
+      <div class="phil-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="phil-icon"><i class="fa-solid fa-spa"></i></div>
+        <h3 data-lang="az">Ritual</h3><h3 data-lang="ru">Ритуал</h3><h3 data-lang="en">Ritual</h3>
+        <p data-lang="az">Hər dəmləmə bir ritualdır — düzgün istilik, vaxt, qab seçimi hamısı mükəmməl fincanı yaradır.</p>
+        <p data-lang="ru">Каждое заваривание — ритуал: правильная температура, время и посуда создают идеальную чашку.</p>
+        <p data-lang="en">Every brew is a ritual — the right temperature, time and vessel combine to create the perfect cup.</p>
+      </div>
+      <div class="phil-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="phil-icon"><i class="fa-solid fa-handshake"></i></div>
+        <h3 data-lang="az">Qonaqpərvərlik</h3><h3 data-lang="ru">Гостеприимство</h3><h3 data-lang="en">Hospitality</h3>
+        <p data-lang="az">Azərbaycan qonaqpərvərliyi çay süfrəsindən başlayır. Hər qonağa layiq olduğu diqqəti göstəririk.</p>
+        <p data-lang="ru">Азербайджанское гостеприимство начинается с чайного стола. Каждому гостю — заслуженное внимание.</p>
+        <p data-lang="en">Azerbaijani hospitality begins at the tea table. Every guest receives the attention they deserve.</p>
+      </div>
+      <div class="phil-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="phil-icon"><i class="fa-solid fa-seedling"></i></div>
+        <h3 data-lang="az">Təbiət</h3><h3 data-lang="ru">Природа</h3><h3 data-lang="en">Nature</h3>
+        <p data-lang="az">Azərbaycan torpağında yetişən çay yarpaqları xüsusi bir dad daşıyır. Yerli mənşəyi önə çəkirik.</p>
+        <p data-lang="ru">Листья чая, выращенные на азербайджанской земле, несут особый вкус. Продвигаем местное происхождение.</p>
+        <p data-lang="en">Tea leaves grown on Azerbaijani soil carry a distinct flavour. We champion local provenance.</p>
+      </div>
+      <div class="phil-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="phil-icon"><i class="fa-solid fa-book-open"></i></div>
+        <h3 data-lang="az">Maarifləndirmə</h3><h3 data-lang="ru">Просвещение</h3><h3 data-lang="en">Education</h3>
+        <p data-lang="az">Mədəni-maarifləndirici tədbirlər vasitəsilə çay haqqında bilgiləri geniş auditoriyaya çatdırırıq.</p>
+        <p data-lang="ru">Через культурно-просветительские мероприятия распространяем знания о чае широкой аудитории.</p>
+        <p data-lang="en">Through cultural events, we spread knowledge about tea to a wide audience.</p>
+      </div>
+      <div class="phil-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="phil-icon"><i class="fa-solid fa-globe-asia"></i></div>
+        <h3 data-lang="az">Mədəni Körpü</h3><h3 data-lang="ru">Культурный Мост</h3><h3 data-lang="en">Cultural Bridge</h3>
+        <p data-lang="az">Azərbaycanda Çinlə qədim çay əlaqələrini nümayiş etdirərək Şərqlə körpü qururuq.</p>
+        <p data-lang="ru">Демонстрируя древние чайные связи Азербайджана с Китаем, строим мост с Востоком.</p>
+        <p data-lang="en">By showcasing Azerbaijan's ancient tea links with China, we build a bridge to the East.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SERVICES ════════════════ -->
+<section id="services">
+  <div class="container">
+
+    <div class="section-header" data-lang="az" data-aos="fade-up">
+      <span class="section-tag">Nə Təklif Edirik</span>
+      <h2 class="section-title">Xidmətlərimiz</h2>
+      <div class="ornament"><i class="fa-solid fa-mug-hot"></i></div>
+      <p class="section-lead">Özəl tədbirlərdən korporativ proqramlara qədər — hər format üçün mükəmməl çay təcrübəsi.</p>
+    </div>
+    <div class="section-header" data-lang="ru" data-aos="fade-up">
+      <span class="section-tag">Что Мы Предлагаем</span>
+      <h2 class="section-title">Наши Услуги</h2>
+      <div class="ornament"><i class="fa-solid fa-mug-hot"></i></div>
+      <p class="section-lead">От частных мероприятий до корпоративных программ — идеальный чайный опыт для любого формата.</p>
+    </div>
+    <div class="section-header" data-lang="en" data-aos="fade-up">
+      <span class="section-tag">What We Offer</span>
+      <h2 class="section-title">Our Services</h2>
+      <div class="ornament"><i class="fa-solid fa-mug-hot"></i></div>
+      <p class="section-lead">From intimate private events to large corporate programmes — the perfect tea experience for every format.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="svc-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+        <div class="svc-body">
+          <h3 data-lang="az">Çay Mərasimləri</h3><h3 data-lang="ru">Чайные Церемонии</h3><h3 data-lang="en">Tea Ceremonies</h3>
+          <p data-lang="az">Azərbaycan çay ritualını əhatə edən tam immersiv mərasimlər. Tarix, fəlsəfə və zövq bir arada.</p>
+          <p data-lang="ru">Полностью иммерсивные церемонии, охватывающие азербайджанский чайный ритуал.</p>
+          <p data-lang="en">Fully immersive ceremonies encompassing the Azerbaijani tea ritual. History, philosophy and flavour in one.</p>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="50">
+        <div class="svc-icon"><i class="fa-solid fa-wine-glass"></i></div>
+        <div class="svc-body">
+          <h3 data-lang="az">Çay Dequstasiyaları</h3><h3 data-lang="ru">Чайные Дегустации</h3><h3 data-lang="en">Tea Tastings</h3>
+          <p data-lang="az">Müxtəlif Azərbaycan çay sortlarını müqayisəli şəkildə dadmaq imkanı. Hər yudumda fərq hiss edilir.</p>
+          <p data-lang="ru">Сравнительная дегустация различных сортов азербайджанского чая.</p>
+          <p data-lang="en">Comparative tasting of various Azerbaijani tea varieties. The difference is felt in every sip.</p>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="svc-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+        <div class="svc-body">
+          <h3 data-lang="az">Master-Klaslar</h3><h3 data-lang="ru">Мастер-Классы</h3><h3 data-lang="en">Master Classes</h3>
+          <p data-lang="az">Çayın düzgün dəmlənməsi, qab seçimi, su temperaturu üzrə praktiki dərslər.</p>
+          <p data-lang="ru">Практические занятия по правильному завариванию чая, выбору посуды и температуре воды.</p>
+          <p data-lang="en">Practical sessions on correct brewing technique, vessel selection and water temperature.</p>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="150">
+        <div class="svc-icon"><i class="fa-solid fa-car-side"></i></div>
+        <div class="svc-body">
+          <h3 data-lang="az">Səyyar Mərasimlər</h3><h3 data-lang="ru">Выездные Церемонии</h3><h3 data-lang="en">Mobile Ceremonies</h3>
+          <p data-lang="az">Otel, korporativ və özəl tədbirlər üçün sizin lokasiyanıza gəlirik. Bütün avadanlıqlar bizdədir.</p>
+          <p data-lang="ru">Приезжаем на ваше место. Всё оборудование с нами.</p>
+          <p data-lang="en">We come to your location for hotel, corporate and private events. All equipment provided.</p>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="svc-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="svc-body">
+          <h3 data-lang="az">Turist Proqramları</h3><h3 data-lang="ru">Туристические Программы</h3><h3 data-lang="en">Tourist Programmes</h3>
+          <p data-lang="az">Xarici turistlər üçün xüsusi tur paketləri. Azərbaycan çay tarixini üç dildə təqdim edirik.</p>
+          <p data-lang="ru">Специальные туристические пакеты. Представляем историю чая на трёх языках.</p>
+          <p data-lang="en">Special tour packages for international visitors in three languages.</p>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="50">
+        <div class="svc-icon"><i class="fa-solid fa-store"></i></div>
+        <div class="svc-body">
+          <h3 data-lang="az">Çay Məhsulları</h3><h3 data-lang="ru">Чайная Продукция</h3><h3 data-lang="en">Tea Products</h3>
+          <p data-lang="az">Seçilmiş çaylar, çay dəstləri, armudu stəkanlar və tematik hədiyyə paketlərinin satışı.</p>
+          <p data-lang="ru">Продажа отборных чаёв, наборов, армуды-стаканов и подарочных наборов.</p>
+          <p data-lang="en">Sale of curated teas, tea sets, armudu glasses and themed gift packages.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CEREMONY ════════════════ -->
+<section id="ceremony">
+  <div class="container">
+    <div class="ceremony-inner">
+
+      <!-- Image -->
+      <div data-aos="fade-right">
+        <div class="ceremony-img">
+          <img src="assets/freepik_img2-the-half-glass-remai_2764317764 1.png" alt="Ceremony" />
+          <div class="ceremony-img-badge">
+            <i class="fa-solid fa-star"></i>
+            <span data-lang="az">Tam İmmersiv Təcrübə</span>
+            <span data-lang="ru">Полное Погружение</span>
+            <span data-lang="en">Full Immersion Experience</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div data-aos="fade-left">
+        <div data-lang="az">
+          <span class="section-tag">Mərasim Axışı</span>
+          <h2 class="section-title">Çay Mərasimi Necə Keçir?</h2>
+          <div class="ornament"><i class="fa-solid fa-mug-hot"></i></div>
+          <p class="section-lead">Hər seans 4 hissədən ibarətdir — tarixi hekayə, dəmləmə rituali, dequstasiya və söhbət.</p>
+        </div>
+        <div data-lang="ru">
+          <span class="section-tag">Ход Церемонии</span>
+          <h2 class="section-title">Как Проходит Чайная Церемония?</h2>
+          <div class="ornament"><i class="fa-solid fa-mug-hot"></i></div>
+          <p class="section-lead">Каждая сессия состоит из 4 частей — повествование, ритуал заваривания, дегустация и беседа.</p>
+        </div>
+        <div data-lang="en">
+          <span class="section-tag">Ceremony Flow</span>
+          <h2 class="section-title">How Does the Tea Ceremony Work?</h2>
+          <div class="ornament"><i class="fa-solid fa-mug-hot"></i></div>
+          <p class="section-lead">Each session consists of 4 parts — historical storytelling, brewing ritual, tasting and conversation.</p>
+        </div>
+
+        <div class="ceremony-steps" data-lang="az">
+          <div class="step"><div class="step-num">01</div><div class="step-body"><h4>Tarixi Giriş</h4><p>Azərbaycanda çayın tarixi, Çinlə əlaqəsi, armudu stəkanın doğulması haqqında canlı hekayə.</p></div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-body"><h4>Dəmləmə Rituali</h4><p>Düzgün su temperaturu, çaynik istiləndirmə, dəmləmə müddəti — hər addımı birlikdə edirik.</p></div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-body"><h4>Dequstasiya</h4><p>Müxtəlif çay sortlarını dadır, armudu stəkandan içmənin sirrini öyrənirik.</p></div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-body"><h4>Söhbət & Suallar</h4><p>Qonaqlarla ünsiyyət, suallar, tövsiyələr və hədiyyə olaraq çay seçimi.</p></div></div>
+        </div>
+        <div class="ceremony-steps" data-lang="ru">
+          <div class="step"><div class="step-num">01</div><div class="step-body"><h4>Историческое Вступление</h4><p>Живой рассказ об истории чая в Азербайджане, его связи с Китаем и рождении армуды.</p></div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-body"><h4>Ритуал Заваривания</h4><p>Правильная температура, прогрев чайника, время заваривания — каждый шаг вместе.</p></div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-body"><h4>Дегустация</h4><p>Пробуем разные сорта чая, узнаём секрет питья из армуды-стакана.</p></div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-body"><h4>Беседа & Вопросы</h4><p>Общение с гостями, рекомендации и выбор чая в подарок.</p></div></div>
+        </div>
+        <div class="ceremony-steps" data-lang="en">
+          <div class="step"><div class="step-num">01</div><div class="step-body"><h4>Historical Introduction</h4><p>A live narrative about the history of tea in Azerbaijan, its connection to China and the birth of the armudu glass.</p></div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-body"><h4>Brewing Ritual</h4><p>Correct water temperature, warming the teapot, steeping time — every step done together.</p></div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-body"><h4>Tasting</h4><p>Sampling various tea varieties, learning the secret of drinking from an armudu glass.</p></div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-body"><h4>Conversation & Q&A</h4><p>Engaging with guests, recommendations and selecting a tea as a gift.</p></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TEAM ════════════════ -->
+<section id="team">
+  <div class="container">
+
+    <div class="section-header centered" data-lang="az" data-aos="fade-up">
+      <span class="section-tag">Komandamız</span>
+      <h2 class="section-title">Çay Ustalarımız</h2>
+      <div class="ornament"><i class="fa-solid fa-user-tie"></i></div>
+    </div>
+    <div class="section-header centered" data-lang="ru" data-aos="fade-up">
+      <span class="section-tag">Наша Команда</span>
+      <h2 class="section-title">Наши Чайные Мастера</h2>
+      <div class="ornament"><i class="fa-solid fa-user-tie"></i></div>
+    </div>
+    <div class="section-header centered" data-lang="en" data-aos="fade-up">
+      <span class="section-tag">Our Team</span>
+      <h2 class="section-title">Our Tea Masters</h2>
+      <div class="ornament"><i class="fa-solid fa-user-tie"></i></div>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="team-photo">
+          <img src="assets/WhatsApp Image 2026-05-08 at 18.21.01 1.png" alt="Tea Master" />
+        </div>
+        <div class="team-info">
+          <h3 class="team-name"><!-- PLACEHOLDER: İsim --></h3>
+          <div class="team-role" data-lang="az">Baş Çay Ustası</div>
+          <div class="team-role" data-lang="ru">Главный Чайный Мастер</div>
+          <div class="team-role" data-lang="en">Head Tea Master</div>
+          <div class="team-divider"></div>
+          <p class="team-desc" data-lang="az">Azərbaycan çay mədəniyyəti üzrə ekspert. 3+ il təcrübə.</p>
+          <p class="team-desc" data-lang="ru">Эксперт по азербайджанской чайной культуре. 3+ лет опыта.</p>
+          <p class="team-desc" data-lang="en">Expert in Azerbaijani tea culture. 3+ years of experience.</p>
+        </div>
+      </div>
+      <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="team-photo">
+          <img src="assets/WhatsApp Image 2026-05-08 at 18.21.01 3.png" alt="Tea Master" />
+        </div>
+        <div class="team-info">
+          <h3 class="team-name"><!-- PLACEHOLDER: İsim --></h3>
+          <div class="team-role" data-lang="az">Çay Mərasimi Ustası</div>
+          <div class="team-role" data-lang="ru">Мастер Чайных Церемоний</div>
+          <div class="team-role" data-lang="en">Ceremony Specialist</div>
+          <div class="team-divider"></div>
+          <p class="team-desc" data-lang="az">Tarixi hekayələndirmə və çay dequstasiyası üzrə mütəxəssis.</p>
+          <p class="team-desc" data-lang="ru">Специалист по историческому повествованию и дегустации чая.</p>
+          <p class="team-desc" data-lang="en">Specialist in historical storytelling and tea tasting.</p>
+        </div>
+      </div>
+      <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="team-photo">
+          <img src="assets/WhatsApp Image 2026-05-08 at 18.21.01 4.png" alt="Tea Master" />
+        </div>
+        <div class="team-info">
+          <h3 class="team-name"><!-- PLACEHOLDER: İsim --></h3>
+          <div class="team-role" data-lang="az">Çay Dequstasiya Mütəxəssisi</div>
+          <div class="team-role" data-lang="ru">Специалист по Дегустации</div>
+          <div class="team-role" data-lang="en">Tasting Specialist</div>
+          <div class="team-divider"></div>
+          <p class="team-desc" data-lang="az">Çay sortları və dəmləmə texnikası üzrə dərin biliyə sahibdir.</p>
+          <p class="team-desc" data-lang="ru">Обладает глубокими знаниями сортов чая и техники заваривания.</p>
+          <p class="team-desc" data-lang="en">Deep expertise in tea varieties and brewing techniques.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ GALLERY ════════════════ -->
+<section id="gallery">
+  <div class="container">
+
+    <div class="section-header centered" data-lang="az" data-aos="fade-up">
+      <span class="section-tag">Vizual</span>
+      <h2 class="section-title">Qalereya</h2>
+      <div class="ornament"><i class="fa-solid fa-images"></i></div>
+    </div>
+    <div class="section-header centered" data-lang="ru" data-aos="fade-up">
+      <span class="section-tag">Визуальное</span>
+      <h2 class="section-title">Галерея</h2>
+      <div class="ornament"><i class="fa-solid fa-images"></i></div>
+    </div>
+    <div class="section-header centered" data-lang="en" data-aos="fade-up">
+      <span class="section-tag">Visual</span>
+      <h2 class="section-title">Gallery</h2>
+      <div class="ornament"><i class="fa-solid fa-images"></i></div>
+    </div>
+
+    <div class="gallery-grid" data-aos="fade-up">
+      <div class="g-item wide" style="grid-row:span 2;">
+        <img src="assets/image 2.png" alt="ChaiCore" />
+        <div class="g-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="g-item">
+        <img src="assets/ChatGPT Image 30 апр. 2026 г., 19_53_33 1.png" alt="Logo concept" />
+        <div class="g-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="g-item">
+        <img src="assets/ChatGPT Image 30 апр. 2026 г., 19_54_23 1.png" alt="Logo concept" />
+        <div class="g-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="g-item">
+        <img src="assets/ChatGPT Image Apr 30, 2026, 08_34_54 PM 1.png" alt="Logo concept" />
+        <div class="g-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="g-item">
+        <img src="assets/WhatsApp Image 2026-05-08 at 18.21.01 2.png" alt="Tea Master" />
+        <div class="g-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="g-item">
+        <img src="assets/image 3.png" alt="Gold texture" />
+        <div class="g-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="g-item">
+        <img src="assets/WhatsApp Image 2026-05-08 at 18.21.01 4.png" alt="Tea Master" />
+        <div class="g-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TESTIMONIALS ════════════════ -->
+<section id="testimonials">
+  <div class="container">
+
+    <div class="section-header centered" data-lang="az" data-aos="fade-up">
+      <span class="section-tag">Rəylər</span>
+      <h2 class="section-title">Qonaqlarımız Nə Deyir</h2>
+      <div class="ornament"><i class="fa-solid fa-star"></i></div>
+    </div>
+    <div class="section-header centered" data-lang="ru" data-aos="fade-up">
+      <span class="section-tag">Отзывы</span>
+      <h2 class="section-title">Что Говорят Наши Гости</h2>
+      <div class="ornament"><i class="fa-solid fa-star"></i></div>
+    </div>
+    <div class="section-header centered" data-lang="en" data-aos="fade-up">
+      <span class="section-tag">Reviews</span>
+      <h2 class="section-title">What Our Guests Say</h2>
+      <div class="ornament"><i class="fa-solid fa-star"></i></div>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="testi-text" data-lang="az">"ChaiCore mərasimi həyatımda gördüyüm ən maraqlı mədəni təcrübələrdən biri idi. Çay haqqında bu qədər dərin bilgiləri heç yerdə almamışdım."</p>
+        <p class="testi-text" data-lang="ru">"Церемония ChaiCore стала одним из самых интересных культурных впечатлений в моей жизни. Таких глубоких знаний о чае я нигде не получал."</p>
+        <p class="testi-text" data-lang="en">"The ChaiCore ceremony was one of the most fascinating cultural experiences of my life. I have never gained such deep knowledge about tea anywhere else."</p>
+        <div class="testi-author">
+          <div class="testi-av"><i class="fa-solid fa-user"></i></div>
+          <div>
+            <div class="testi-name"><!-- PLACEHOLDER: Ad Soyad --></div>
+            <div class="testi-role" data-lang="az">Bakı, Azərbaycan</div>
+            <div class="testi-role" data-lang="ru">Баку, Азербайджан</div>
+            <div class="testi-role" data-lang="en">Baku, Azerbaijan</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="testi-text" data-lang="az">"Korporativ tədbirimiz üçün ChaiCore seçdik. Qonaqlarımız heyran qaldı — tamamilə fərqli, mənalı bir proqram oldu."</p>
+        <p class="testi-text" data-lang="ru">"Мы выбрали ChaiCore для нашего корпоративного мероприятия. Гости были в восхищении — это была совершенно иная, осмысленная программа."</p>
+        <p class="testi-text" data-lang="en">"We chose ChaiCore for our corporate event. Our guests were amazed — it was an entirely different, meaningful programme."</p>
+        <div class="testi-author">
+          <div class="testi-av"><i class="fa-solid fa-user"></i></div>
+          <div>
+            <div class="testi-name"><!-- PLACEHOLDER: Ad Soyad --></div>
+            <div class="testi-role" data-lang="az">Korporativ Müştəri</div>
+            <div class="testi-role" data-lang="ru">Корпоративный Клиент</div>
+            <div class="testi-role" data-lang="en">Corporate Client</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="testi-text" data-lang="az">"Turist olaraq Bakıya gəldim, ChaiCore mərasimi isə Azərbaycanı anlamağıma ən çox kömək edən şey oldu."</p>
+        <p class="testi-text" data-lang="ru">"Я приехал как турист в Баку, и церемония ChaiCore помогла мне понять Азербайджан лучше всего."</p>
+        <p class="testi-text" data-lang="en">"I came to Baku as a tourist, and the ChaiCore ceremony was the single thing that helped me understand Azerbaijan the most."</p>
+        <div class="testi-author">
+          <div class="testi-av"><i class="fa-solid fa-user"></i></div>
+          <div>
+            <div class="testi-name"><!-- PLACEHOLDER: Ad Soyad --></div>
+            <div class="testi-role" data-lang="az">Beynəlxalq Turist</div>
+            <div class="testi-role" data-lang="ru">Международный Турист</div>
+            <div class="testi-role" data-lang="en">International Tourist</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CONTACT ════════════════ -->
+<section id="contact">
+  <div class="container">
+
+    <div class="section-header" data-lang="az" data-aos="fade-up">
+      <span class="section-tag">Bizimlə Əlaqə</span>
+      <h2 class="section-title">Rezervasiya & Əlaqə</h2>
+      <div class="ornament"><i class="fa-solid fa-envelope"></i></div>
+    </div>
+    <div class="section-header" data-lang="ru" data-aos="fade-up">
+      <span class="section-tag">Свяжитесь С Нами</span>
+      <h2 class="section-title">Бронирование & Контакты</h2>
+      <div class="ornament"><i class="fa-solid fa-envelope"></i></div>
+    </div>
+    <div class="section-header" data-lang="en" data-aos="fade-up">
+      <span class="section-tag">Get In Touch</span>
+      <h2 class="section-title">Booking & Contact</h2>
+      <div class="ornament"><i class="fa-solid fa-envelope"></i></div>
+    </div>
+
+    <div class="contact-grid">
+      <div data-aos="fade-right">
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div>
+              <div class="ci-label" data-lang="az">Ünvan</div>
+              <div class="ci-label" data-lang="ru">Адрес</div>
+              <div class="ci-label" data-lang="en">Address</div>
+              <div class="ci-val"><!-- PLACEHOLDER: Bakı, Azərbaycan --></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <div class="ci-label" data-lang="az">Telefon</div>
+              <div class="ci-label" data-lang="ru">Телефон</div>
+              <div class="ci-label" data-lang="en">Phone</div>
+              <div class="ci-val"><!-- PLACEHOLDER: +994 XX XXX XX XX --></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <div class="ci-label">Email</div>
+              <div class="ci-val"><!-- PLACEHOLDER: info@chaicore.az --></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fa-brands fa-instagram"></i></div>
+            <div>
+              <div class="ci-label">Instagram</div>
+              <div class="ci-val"><!-- PLACEHOLDER: @chaicore --></div>
+            </div>
+          </div>
+        </div>
+        <div class="social-row">
+          <a href="#" class="soc-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="soc-btn"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="soc-btn"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" class="soc-btn"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#" class="soc-btn"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" class="soc-btn"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+        <div class="map-ph">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Google Maps Placeholder</span>
+        </div>
+      </div>
+
+      <div data-aos="fade-left">
+        <div class="contact-form">
+          <h3 data-lang="az">Rezervasiya Formu</h3>
+          <h3 data-lang="ru">Форма Бронирования</h3>
+          <h3 data-lang="en">Booking Form</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-lang="az">Ad</label><label data-lang="ru">Имя</label><label data-lang="en">Name</label>
+              <input type="text" placeholder="— — —" />
+            </div>
+            <div class="form-group">
+              <label data-lang="az">Soyad</label><label data-lang="ru">Фамилия</label><label data-lang="en">Surname</label>
+              <input type="text" placeholder="— — —" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="— — —" />
+            </div>
+            <div class="form-group">
+              <label data-lang="az">Telefon</label><label data-lang="ru">Телефон</label><label data-lang="en">Phone</label>
+              <input type="tel" placeholder="— — —" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-lang="az">Xidmət Növü</label><label data-lang="ru">Тип Услуги</label><label data-lang="en">Service Type</label>
+            <select>
+              <option data-lang="az">Çay Mərasimi</option><option data-lang="ru">Чайная Церемония</option><option data-lang="en">Tea Ceremony</option>
+              <option data-lang="az">Dequstasiya</option><option data-lang="ru">Дегустация</option><option data-lang="en">Tasting</option>
+              <option data-lang="az">Master-Klas</option><option data-lang="ru">Мастер-Класс</option><option data-lang="en">Master Class</option>
+              <option data-lang="az">Korporativ Tədbir</option><option data-lang="ru">Корпоративное Мероприятие</option><option data-lang="en">Corporate Event</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-lang="az">Tarix</label><label data-lang="ru">Дата</label><label data-lang="en">Date</label>
+              <input type="date" />
+            </div>
+            <div class="form-group">
+              <label data-lang="az">Qonaq Sayı</label><label data-lang="ru">Кол-во Гостей</label><label data-lang="en">Guests</label>
+              <input type="number" min="1" placeholder="1" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-lang="az">Mesaj</label><label data-lang="ru">Сообщение</label><label data-lang="en">Message</label>
+            <textarea placeholder="— — —"></textarea>
+          </div>
+          <button type="submit" class="btn btn-crimson" style="width:100%;justify-content:center;">
+            <span data-lang="az">Göndər</span><span data-lang="ru">Отправить</span><span data-lang="en">Send</span>
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="assets/photo_2026-04-11 20.21.39 1.png" alt="ChaiCore" />
+          <span class="nav-logo-text">ChaiCore</span>
+        </div>
+        <p data-lang="az">Azərbaycan çay mədəniyyətini qorumaq, inkişaf etdirmək və müasir formada təqdim etmək — missiyamız budur.</p>
+        <p data-lang="ru">Сохранять, развивать и представлять азербайджанскую чайную культуру в современной форме — наша миссия.</p>
+        <p data-lang="en">Preserving, developing and presenting Azerbaijani tea culture in a modern form — this is our mission.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-lang="az">Keçidlər</h4><h4 data-lang="ru">Навигация</h4><h4 data-lang="en">Navigation</h4>
+        <ul>
+          <li><a href="#about" data-lang="az">Haqqımızda</a><a href="#about" data-lang="ru">О нас</a><a href="#about" data-lang="en">About</a></li>
+          <li><a href="#philosophy" data-lang="az">Fəlsəfə</a><a href="#philosophy" data-lang="ru">Философия</a><a href="#philosophy" data-lang="en">Philosophy</a></li>
+          <li><a href="#services" data-lang="az">Xidmətlər</a><a href="#services" data-lang="ru">Услуги</a><a href="#services" data-lang="en">Services</a></li>
+          <li><a href="#gallery" data-lang="az">Qalereya</a><a href="#gallery" data-lang="ru">Галерея</a><a href="#gallery" data-lang="en">Gallery</a></li>
+          <li><a href="#contact" data-lang="az">Əlaqə</a><a href="#contact" data-lang="ru">Контакты</a><a href="#contact" data-lang="en">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-lang="az">Xidmətlər</h4><h4 data-lang="ru">Услуги</h4><h4 data-lang="en">Services</h4>
+        <ul>
+          <li><a href="#services" data-lang="az">Çay Mərasimi</a><a href="#services" data-lang="ru">Чайная Церемония</a><a href="#services" data-lang="en">Tea Ceremony</a></li>
+          <li><a href="#services" data-lang="az">Dequstasiya</a><a href="#services" data-lang="ru">Дегустация</a><a href="#services" data-lang="en">Tasting</a></li>
+          <li><a href="#services" data-lang="az">Master-Klas</a><a href="#services" data-lang="ru">Мастер-Класс</a><a href="#services" data-lang="en">Master Class</a></li>
+          <li><a href="#services" data-lang="az">Korporativ</a><a href="#services" data-lang="ru">Корпоратив</a><a href="#services" data-lang="en">Corporate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-newsletter">
+        <h4 data-lang="az">Xəbərlər</h4><h4 data-lang="ru">Новости</h4><h4 data-lang="en">Newsletter</h4>
+        <p data-lang="az">Yeni mərasimlər haqqında ilk siz xəbərdar olun.</p>
+        <p data-lang="ru">Первыми узнавайте о новых церемониях и событиях.</p>
+        <p data-lang="en">Be the first to know about new ceremonies and events.</p>
+        <div class="footer-form">
+          <input type="email" placeholder="Email" />
+          <button><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2024 ChaiCore. <span data-lang="az">Bütün hüquqlar qorunur.</span><span data-lang="ru">Все права защищены.</span><span data-lang="en">All rights reserved.</span></span>
+      <div class="social-row" style="margin:0">
+        <a href="#" class="soc-btn" style="width:34px;height:34px"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="soc-btn" style="width:34px;height:34px"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="soc-btn" style="width:34px;height:34px"><i class="fa-brands fa-telegram"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════ SCRIPTS ════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  let currentLang = 'az';
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-lang]').forEach(el =>
+      el.classList.toggle('active', el.dataset.lang === lang)
+    );
+    document.querySelectorAll('[data-lang-i]').forEach(el =>
+      el.classList.toggle('active', el.dataset.langI === lang)
+    );
+    document.querySelectorAll('.lang-btn').forEach(btn =>
+      btn.classList.toggle('active', btn.textContent === lang.toUpperCase())
+    );
+    document.documentElement.lang = lang;
+  }
+
+  setLang('az');
+
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
+  });
+
+  // Mobile nav
+  function toggleNav() { document.body.classList.toggle('nav-mobile-open'); }
+  document.querySelectorAll('.nav-links a').forEach(a =>
+    a.addEventListener('click', () => document.body.classList.remove('nav-mobile-open'))
+  );
+
+  // AOS
+  AOS.init({ duration: 700, once: true, offset: 70 });
+
+  // Particles
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 24; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*10}s;width:${1+Math.random()*3}px;height:${1+Math.random()*3}px;opacity:${Math.random()*.5}`;
+    pc.appendChild(p);
+  }
+</script>
+</body>
+</html>

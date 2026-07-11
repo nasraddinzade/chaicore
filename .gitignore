@@ -1,0 +1,15 @@
+# Локальная база SQLite (создаётся автоматически при запуске)
+/data/*.sqlite
+/data/*.sqlite-wal
+/data/*.sqlite-shm
+
+# Файлы, загруженные через админку (кроме служебных)
+/uploads/*
+!/uploads/.htaccess
+!/uploads/index.html
+
+# Системный мусор
+Thumbs.db
+desktop.ini
+.DS_Store
+*.log
