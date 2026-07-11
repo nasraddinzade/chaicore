@@ -8,6 +8,9 @@
 !/uploads/.htaccess
 !/uploads/index.html
 
+# Реальные доступы к базе — НЕ в репозиторий (в GitHub только config.example.php)
+/config.php
+
 # Системный мусор
 Thumbs.db
 desktop.ini
