@@ -20,7 +20,7 @@ jobs:
           password:  ${{ secrets.FTP_PASSWORD }}
           port:      21
           protocol:  ftp
-          server-dir: public_html/
+          server-dir: ./          # FTP-аккаунт уже стоит в public_html, поэтому корень
           # что НЕ заливать / не трогать на сервере:
           exclude: |
             **/.git*
