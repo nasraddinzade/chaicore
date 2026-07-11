@@ -39,7 +39,6 @@ $fsm = max(50, min(200, (int)s_raw('scale_mobile','100')))  / 100;
   </style>
 </head>
 <body>
-<!-- ci-build: FTPDEPLOY-7311 -->
 
 <?php if (isset($_GET['sent'])): $ok = $_GET['sent'] === '1'; ?>
 <div id="cc-toast" style="position:fixed;top:84px;left:50%;transform:translateX(-50%);z-index:2000;
