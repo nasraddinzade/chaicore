@@ -65,9 +65,9 @@ $fsm = max(50, min(200, (int)s_raw('scale_mobile','100')))  / 100;
 
     <ul class="nav-links">
       <li><a href="#about"><?= t('nav_about') ?></a></li>
-      <li><a href="#philosophy"><?= t('nav_philosophy') ?></a></li>
+      <li class="m-hide"><a href="#philosophy"><?= t('nav_philosophy') ?></a></li>
       <li><a href="#services"><?= t('nav_services') ?></a></li>
-      <li><a href="#gallery"><?= t('nav_gallery') ?></a></li>
+      <li class="m-hide"><a href="#gallery"><?= t('nav_gallery') ?></a></li>
       <li><a href="#contact"><?= t('nav_contact') ?></a></li>
     </ul>
 

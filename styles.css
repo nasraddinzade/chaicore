@@ -612,12 +612,10 @@
       .footer-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
 
-      /* hide gallery & team on mobile */
-      #gallery, #team { display: none; }
-
-      /* shorten philosophy — show only first 3 cards */
-      .phil-card:nth-child(n+4) { display: none; }
-      .phil-grid { grid-template-columns: 1fr; }
+      /* mobile: keep only About, Services, Contact — hide the rest */
+      #philosophy, #ceremony, #team, #gallery, #testimonials { display: none; }
+      /* trim the menu to the same three sections */
+      .nav-links li.m-hide { display: none; }
 
       /* typography scale-up */
       .section-title { font-size: 1.9rem; }
