@@ -8,8 +8,8 @@
 !/uploads/.htaccess
 !/uploads/index.html
 
-# Реальные доступы к базе — НЕ в репозиторий (в GitHub только config.example.php)
-/config.php
+# Локальный тест-конфиг (SQLite) — только для разработки, не для хостинга
+/config.local.php
 
 # Системный мусор
 Thumbs.db
