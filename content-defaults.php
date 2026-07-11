@@ -227,4 +227,8 @@ $DEFAULT_SETTINGS = [
 
   /* Форма — куда слать заявки */
   'form_to_email'=> ['g'=>'Форма заявки','l'=>'Email для заявок (куда приходят брони)','t'=>'text','default'=>'info@chaicore.az'],
+
+  /* Telegram — заявки прилетают в бота */
+  'telegram_bot_token'=> ['g'=>'Telegram (заявки в бота)','l'=>'Токен бота (из BotFather)','t'=>'text','default'=>''],
+  'telegram_chat_id'  => ['g'=>'Telegram (заявки в бота)','l'=>'Chat ID (куда слать заявки)','t'=>'text','default'=>''],
 ];

@@ -53,6 +53,44 @@ if ($to !== '' && filter_var($to, FILTER_VALIDATE_EMAIL)) {
     $ok = @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, $headers);
 }
 
+// ── отправка заявки в Telegram-бота ──
+$tgToken = trim(s_raw('telegram_bot_token'));
+$tgChat  = trim(s_raw('telegram_chat_id'));
+$tgOk = false;
+if ($tgToken !== '' && $tgChat !== '') {
+    $tgText  = ($isNews ? "📨 " : "🫖 ") . $body;
+    $api     = "https://api.telegram.org/bot{$tgToken}/sendMessage";
+    $payload = http_build_query([
+        'chat_id' => $tgChat,
+        'text'    => $tgText,
+        'disable_web_page_preview' => 'true',
+    ]);
+    $resp = false;
+    if (function_exists('curl_init')) {
+        $ch = curl_init($api);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $payload,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 15,
+        ]);
+        $resp = curl_exec($ch);
+        curl_close($ch);
+    } else {
+        $ctx = stream_context_create(['http' => [
+            'method'  => 'POST',
+            'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
+            'content' => $payload,
+            'timeout' => 15,
+        ]]);
+        $resp = @file_get_contents($api, false, $ctx);
+    }
+    $tgOk = ($resp !== false && strpos((string)$resp, '"ok":true') !== false);
+}
+
+// успех, если заявка ушла хотя бы одним каналом (Telegram или email)
+$ok = $ok || $tgOk;
+
 // вернуться на сайт с уведомлением
 $lang = lang();
 header('Location: index.php?lang=' . $lang . '&sent=' . ($ok ? '1' : '0') . '#contact');
