@@ -612,10 +612,7 @@
       .footer-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
 
-      /* mobile: keep only About, Services, Contact — hide the rest */
-      #philosophy, #ceremony, #team, #gallery, #testimonials { display: none; }
-      /* trim the menu to the same three sections */
-      .nav-links li.m-hide { display: none; }
+      /* видимость разделов на телефонах управляется из админки (см. динамический <style> в index.php) */
 
       /* typography scale-up */
       .section-title { font-size: 1.9rem; }

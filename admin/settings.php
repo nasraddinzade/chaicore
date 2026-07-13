@@ -14,6 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!isset($DEFAULT_SETTINGS[$key])) continue;
         upsert_setting($pdo, $key, trim((string)$val));
     }
+    // галочки: невыбранные чекбоксы не приходят в POST, поэтому проставляем 0/1 явно
+    foreach ($DEFAULT_SETTINGS as $key => $d) {
+        if (($d['t'] ?? '') === 'bool') {
+            upsert_setting($pdo, $key, isset($_POST['s'][$key]) ? '1' : '0');
+        }
+    }
     flash_set('ok', 'Настройки сохранены.');
     header('Location: settings.php');
     exit;
@@ -48,6 +54,11 @@ flash_show();
           <input type="number" name="s[<?= e($key) ?>]" value="<?= e($v) ?>" min="50" max="200" step="1" class="a-num">
         <?php elseif ($type === 'color'): ?>
           <input type="color" name="s[<?= e($key) ?>]" value="<?= e($v) ?>">
+        <?php elseif ($type === 'bool'): ?>
+          <label class="a-check">
+            <input type="checkbox" name="s[<?= e($key) ?>]" value="1" <?= $v === '1' ? 'checked' : '' ?>>
+            <span><?= $v === '1' ? 'Показывать' : 'Скрыто' ?></span>
+          </label>
         <?php else: ?>
           <input type="text" name="s[<?= e($key) ?>]" value="<?= e($v) ?>" class="a-wide">
         <?php endif; ?>

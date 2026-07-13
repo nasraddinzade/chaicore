@@ -86,6 +86,9 @@ textarea{resize:vertical;min-height:70px;line-height:1.5}
 .a-wide{flex:1;min-width:240px}
 .a-num{width:120px}
 input[type=color]{width:60px;height:40px;padding:2px;background:var(--navy-3);border:1px solid var(--line);border-radius:6px}
+.a-check{display:inline-flex;align-items:center;gap:10px;cursor:pointer;color:var(--cream);font-size:.92rem;user-select:none}
+.a-check input{width:20px;height:20px;accent-color:var(--orange);cursor:pointer;flex:none}
+.a-check span{color:var(--text-dim)}
 
 /* ── Кнопки ── */
 .a-btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;

@@ -7,6 +7,16 @@ $fs  = max(50, min(200, (int)s_raw('font_scale','100')))    / 100;
 $fsh = max(50, min(200, (int)s_raw('scale_hero','100')))    / 100;
 $fss = max(50, min(200, (int)s_raw('scale_section','100'))) / 100;
 $fsm = max(50, min(200, (int)s_raw('scale_mobile','100')))  / 100;
+
+// разделы, скрытые на телефонах (управляется галочками в админке).
+// если настройки ещё нет в базе — берём дефолт из content-defaults.php
+$mobileSections = ['about','philosophy','services','ceremony','team','gallery','testimonials','contact'];
+$mobileHidden = [];
+foreach ($mobileSections as $sec) {
+    $key = "mobile_show_$sec";
+    $def = $DEFAULT_SETTINGS[$key]['default'] ?? '1';
+    if (s_raw($key, $def) !== '1') $mobileHidden[] = $sec;
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?= e($L) ?>">
@@ -35,6 +45,9 @@ $fsm = max(50, min(200, (int)s_raw('scale_mobile','100')))  / 100;
     .section-title{ font-size: calc(clamp(1.8rem, 4vw, 2.8rem) * var(--scale-section)); }
     @media (max-width: 580px){
       html{ font-size: calc(100% * var(--font-scale) * var(--scale-mobile)); }
+<?php foreach ($mobileHidden as $sec): ?>
+      #<?= $sec ?>, .nav-links li[data-sec="<?= $sec ?>"]{ display: none !important; }
+<?php endforeach; ?>
     }
   </style>
 </head>
@@ -64,11 +77,11 @@ $fsm = max(50, min(200, (int)s_raw('scale_mobile','100')))  / 100;
     </a>
 
     <ul class="nav-links">
-      <li><a href="#about"><?= t('nav_about') ?></a></li>
-      <li class="m-hide"><a href="#philosophy"><?= t('nav_philosophy') ?></a></li>
-      <li><a href="#services"><?= t('nav_services') ?></a></li>
-      <li class="m-hide"><a href="#gallery"><?= t('nav_gallery') ?></a></li>
-      <li><a href="#contact"><?= t('nav_contact') ?></a></li>
+      <li data-sec="about"><a href="#about"><?= t('nav_about') ?></a></li>
+      <li data-sec="philosophy"><a href="#philosophy"><?= t('nav_philosophy') ?></a></li>
+      <li data-sec="services"><a href="#services"><?= t('nav_services') ?></a></li>
+      <li data-sec="gallery"><a href="#gallery"><?= t('nav_gallery') ?></a></li>
+      <li data-sec="contact"><a href="#contact"><?= t('nav_contact') ?></a></li>
     </ul>
 
     <div class="nav-right">
