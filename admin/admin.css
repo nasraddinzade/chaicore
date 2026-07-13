@@ -99,6 +99,18 @@ input[type=color]{width:60px;height:40px;padding:2px;background:var(--navy-3);bo
 .img-note i{color:var(--orange-dim)}
 @media(max-width:720px){.tm-card{grid-template-columns:1fr}}
 
+/* отзывы (модерация) */
+.a-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;margin-left:4px;background:var(--crimson);color:#fff;border-radius:9px;font-size:.68rem;font-weight:700;vertical-align:middle}
+.rv-item{background:var(--navy-3);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:12px}
+.rv-item.rv-pending{border-left:3px solid var(--orange)}
+.rv-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;color:var(--text-dim);font-size:.88rem}
+.rv-meta b{color:var(--cream)}
+.rv-stars{color:var(--orange);letter-spacing:1px}
+.rv-lang{font-size:.66rem;font-weight:700;letter-spacing:.08em;color:var(--orange-dim);border:1px solid var(--line);border-radius:4px;padding:1px 6px}
+.rv-text{color:var(--text);line-height:1.6;margin-bottom:12px;white-space:pre-line}
+.rv-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.rv-actions form{display:inline}
+
 /* ── Кнопки ── */
 .a-btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;
   background:linear-gradient(135deg,var(--crimson),var(--crimson-2));color:#fff;border:none;

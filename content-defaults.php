@@ -113,15 +113,17 @@ $DEFAULT_TEXTS = [
   /* ── Отзывы ── */
   'testi_tag'     => ['g'=>'Отзывы','l'=>'Метка секции','t'=>'text','az'=>'Rəylər','ru'=>'Отзывы','en'=>'Reviews'],
   'testi_title'   => ['g'=>'Отзывы','l'=>'Заголовок','t'=>'text','az'=>'Qonaqlarımız Nə Deyir','ru'=>'Что Говорят Наши Гости','en'=>'What Our Guests Say'],
-  'testi1_text'   => ['g'=>'Отзывы · Карточки','l'=>'Отзыв 1 — текст','t'=>'area','az'=>'"ChaiCore mərasimi həyatımda gördüyüm ən maraqlı mədəni təcrübələrdən biri idi. Çay haqqında bu qədər dərin bilgiləri heç yerdə almamışdım."','ru'=>'«Церемония ChaiCore стала одним из самых интересных культурных впечатлений в моей жизни. Таких глубоких знаний о чае я нигде не получал.»','en'=>'"The ChaiCore ceremony was one of the most fascinating cultural experiences of my life. I have never gained such deep knowledge about tea anywhere else."'],
-  'testi1_name'   => ['g'=>'Отзывы · Карточки','l'=>'Отзыв 1 — автор','t'=>'text','az'=>'','ru'=>'','en'=>''],
-  'testi1_role'   => ['g'=>'Отзывы · Карточки','l'=>'Отзыв 1 — подпись','t'=>'text','az'=>'Bakı, Azərbaycan','ru'=>'Баку, Азербайджан','en'=>'Baku, Azerbaijan'],
-  'testi2_text'   => ['g'=>'Отзывы · Карточки','l'=>'Отзыв 2 — текст','t'=>'area','az'=>'"Korporativ tədbirimiz üçün ChaiCore seçdik. Qonaqlarımız heyran qaldı — tamamilə fərqli, mənalı bir proqram oldu."','ru'=>'«Мы выбрали ChaiCore для нашего корпоративного мероприятия. Гости были в восхищении — это была совершенно иная, осмысленная программа.»','en'=>'"We chose ChaiCore for our corporate event. Our guests were amazed — it was an entirely different, meaningful programme."'],
-  'testi2_name'   => ['g'=>'Отзывы · Карточки','l'=>'Отзыв 2 — автор','t'=>'text','az'=>'','ru'=>'','en'=>''],
-  'testi2_role'   => ['g'=>'Отзывы · Карточки','l'=>'Отзыв 2 — подпись','t'=>'text','az'=>'Korporativ Müştəri','ru'=>'Корпоративный Клиент','en'=>'Corporate Client'],
-  'testi3_text'   => ['g'=>'Отзывы · Карточки','l'=>'Отзыв 3 — текст','t'=>'area','az'=>'"Turist olaraq Bakıya gəldim, ChaiCore mərasimi isə Azərbaycanı anlamağıma ən çox kömək edən şey oldu."','ru'=>'«Я приехал как турист в Баку, и церемония ChaiCore помогла мне понять Азербайджан лучше всего.»','en'=>'"I came to Baku as a tourist, and the ChaiCore ceremony was the single thing that helped me understand Azerbaijan the most."'],
-  'testi3_name'   => ['g'=>'Отзывы · Карточки','l'=>'Отзыв 3 — автор','t'=>'text','az'=>'','ru'=>'','en'=>''],
-  'testi3_role'   => ['g'=>'Отзывы · Карточки','l'=>'Отзыв 3 — подпись','t'=>'text','az'=>'Beynəlxalq Turist','ru'=>'Международный Турист','en'=>'International Tourist'],
+  /* Сами отзывы теперь динамические (таблица cc_reviews, модерация в админке).
+     Ниже — тексты формы «оставить отзыв» на сайте. */
+  'testi_lead'    => ['g'=>'Отзывы','l'=>'Подзаголовок секции','t'=>'area','az'=>'Qonaqlarımızın təəssüratları — siz də öz rəyinizi buraxa bilərsiniz.','ru'=>'Впечатления наших гостей — вы тоже можете оставить свой отзыв.','en'=>'What our guests say — and you can leave your own review too.'],
+  'review_cta'    => ['g'=>'Отзывы · Форма','l'=>'Кнопка «оставить отзыв»','t'=>'text','az'=>'Rəy yaz','ru'=>'Оставить отзыв','en'=>'Leave a review'],
+  'review_form_title'=>['g'=>'Отзывы · Форма','l'=>'Заголовок формы','t'=>'text','az'=>'Rəyiniz','ru'=>'Ваш отзыв','en'=>'Your review'],
+  'review_f_name' => ['g'=>'Отзывы · Форма','l'=>'Поле: Имя','t'=>'text','az'=>'Adınız','ru'=>'Ваше имя','en'=>'Your name'],
+  'review_f_place'=> ['g'=>'Отзывы · Форма','l'=>'Поле: Город/компания','t'=>'text','az'=>'Şəhər / şirkət (istəyə görə)','ru'=>'Город / компания (необязательно)','en'=>'City / company (optional)'],
+  'review_f_text' => ['g'=>'Отзывы · Форма','l'=>'Поле: Текст отзыва','t'=>'text','az'=>'Rəyiniz','ru'=>'Ваш отзыв','en'=>'Your review'],
+  'review_f_rating'=>['g'=>'Отзывы · Форма','l'=>'Поле: Оценка','t'=>'text','az'=>'Qiymət','ru'=>'Оценка','en'=>'Rating'],
+  'review_submit' => ['g'=>'Отзывы · Форма','l'=>'Кнопка отправки','t'=>'text','az'=>'Göndər','ru'=>'Отправить','en'=>'Send'],
+  'review_thanks' => ['g'=>'Отзывы · Форма','l'=>'Сообщение после отправки','t'=>'text','az'=>'Təşəkkürlər! Rəyiniz yoxlanışdan sonra görünəcək.','ru'=>'Спасибо! Отзыв появится после проверки.','en'=>'Thank you! Your review will appear after approval.'],
 
   /* ── Контакты ── */
   'contact_tag'   => ['g'=>'Контакты','l'=>'Метка секции','t'=>'text','az'=>'Bizimlə Əlaqə','ru'=>'Свяжитесь С Нами','en'=>'Get In Touch'],
@@ -256,5 +258,27 @@ $DEFAULT_TEAM = [
     'name'  => ['az'=>'','ru'=>'','en'=>''],
     'role'  => ['az'=>'Çay Dequstasiya Mütəxəssisi','ru'=>'Специалист по Дегустации','en'=>'Tasting Specialist'],
     'desc'  => ['az'=>'Çay sortları və dəmləmə texnikası üzrə dərin biliyə sahibdir.','ru'=>'Обладает глубокими знаниями сортов чая и техники заваривания.','en'=>'Deep expertise in tea varieties and brewing techniques.'],
+  ],
+];
+
+/* ═══════════════════ СТАРТОВЫЕ ОТЗЫВЫ ═══════════════════
+   Используются при первой установке. Дальше отзывы приходят с сайта
+   (с модерацией) или добавляются админом. Для каждого создаётся по одному
+   одобренному отзыву на каждый язык (az/ru/en). */
+$DEFAULT_REVIEWS = [
+  [
+    'name'     => ['az'=>'','ru'=>'','en'=>''],
+    'location' => ['az'=>'Bakı, Azərbaycan','ru'=>'Баку, Азербайджан','en'=>'Baku, Azerbaijan'],
+    'text'     => ['az'=>'"ChaiCore mərasimi həyatımda gördüyüm ən maraqlı mədəni təcrübələrdən biri idi. Çay haqqında bu qədər dərin bilgiləri heç yerdə almamışdım."','ru'=>'«Церемония ChaiCore стала одним из самых интересных культурных впечатлений в моей жизни. Таких глубоких знаний о чае я нигде не получал.»','en'=>'"The ChaiCore ceremony was one of the most fascinating cultural experiences of my life. I have never gained such deep knowledge about tea anywhere else."'],
+  ],
+  [
+    'name'     => ['az'=>'','ru'=>'','en'=>''],
+    'location' => ['az'=>'Korporativ Müştəri','ru'=>'Корпоративный Клиент','en'=>'Corporate Client'],
+    'text'     => ['az'=>'"Korporativ tədbirimiz üçün ChaiCore seçdik. Qonaqlarımız heyran qaldı — tamamilə fərqli, mənalı bir proqram oldu."','ru'=>'«Мы выбрали ChaiCore для нашего корпоративного мероприятия. Гости были в восхищении — это была совершенно иная, осмысленная программа.»','en'=>'"We chose ChaiCore for our corporate event. Our guests were amazed — it was an entirely different, meaningful programme."'],
+  ],
+  [
+    'name'     => ['az'=>'','ru'=>'','en'=>''],
+    'location' => ['az'=>'Beynəlxalq Turist','ru'=>'Международный Турист','en'=>'International Tourist'],
+    'text'     => ['az'=>'"Turist olaraq Bakıya gəldim, ChaiCore mərasimi isə Azərbaycanı anlamağıma ən çox kömək edən şey oldu."','ru'=>'«Я приехал как турист в Баку, и церемония ChaiCore помогла мне понять Азербайджан лучше всего.»','en'=>'"I came to Baku as a tourist, and the ChaiCore ceremony was the single thing that helped me understand Azerbaijan the most."'],
   ],
 ];

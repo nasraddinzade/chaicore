@@ -66,6 +66,15 @@ foreach ($mobileSections as $sec) {
 <script>setTimeout(()=>{var t=document.getElementById('cc-toast');if(t)t.style.display='none';},5000);</script>
 <?php endif; ?>
 
+<?php if (isset($_GET['review'])): ?>
+<div id="cc-toast2" style="position:fixed;top:84px;left:50%;transform:translateX(-50%);z-index:2000;
+  padding:14px 26px;border-radius:8px;font-family:'Raleway',sans-serif;font-size:.9rem;color:#fff;
+  box-shadow:0 8px 30px rgba(0,0,0,.5);background:#3a7d5b;text-align:center;max-width:90%;">
+  <?= t('review_thanks') ?>
+</div>
+<script>setTimeout(()=>{var t=document.getElementById('cc-toast2');if(t)t.style.display='none';},6000);</script>
+<?php endif; ?>
+
 <!-- ════════════════ NAVBAR ════════════════ -->
 <nav id="navbar">
   <div class="nav-inner">
@@ -319,23 +328,65 @@ foreach ($mobileSections as $sec) {
       <span class="section-tag"><?= t('testi_tag') ?></span>
       <h2 class="section-title"><?= t('testi_title') ?></h2>
       <div class="ornament"><i class="fa-solid fa-star"></i></div>
+      <p class="section-lead"><?= t('testi_lead') ?></p>
     </div>
 
+    <?php $reviews = approved_reviews($L); ?>
+    <?php if ($reviews): ?>
     <div class="testi-grid">
-      <?php for ($n=1; $n<=3; $n++): $delay=[0,100,200][$n-1]; ?>
+      <?php foreach ($reviews as $idx => $rv): $delay = ($idx % 3) * 100; $rating = max(1, min(5, (int)$rv['rating'])); ?>
       <div class="testi-card" data-aos="fade-up" data-aos-delay="<?= $delay ?>">
-        <div class="testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p class="testi-text"><?= t("testi{$n}_text") ?></p>
+        <div class="testi-stars"><?php for ($s=0; $s<$rating; $s++): ?><i class="fa-solid fa-star"></i><?php endfor; ?></div>
+        <p class="testi-text"><?= e($rv['text']) ?></p>
         <div class="testi-author">
           <div class="testi-av"><i class="fa-solid fa-user"></i></div>
           <div>
-            <?php if (t_raw("testi{$n}_name") !== ''): ?><div class="testi-name"><?= t("testi{$n}_name") ?></div><?php endif; ?>
-            <div class="testi-role"><?= t("testi{$n}_role") ?></div>
+            <?php if (trim((string)$rv['name']) !== ''): ?><div class="testi-name"><?= e($rv['name']) ?></div><?php endif; ?>
+            <?php if (trim((string)$rv['location']) !== ''): ?><div class="testi-role"><?= e($rv['location']) ?></div><?php endif; ?>
           </div>
         </div>
       </div>
-      <?php endfor; ?>
+      <?php endforeach; ?>
     </div>
+    <?php endif; ?>
+
+    <div class="review-cta-wrap" data-aos="fade-up">
+      <button type="button" class="btn btn-outline" onclick="document.getElementById('review-form').classList.toggle('open')">
+        <i class="fa-solid fa-pen"></i> <?= t('review_cta') ?>
+      </button>
+    </div>
+
+    <form id="review-form" class="review-form" method="post" action="review.php">
+      <input type="hidden" name="lang" value="<?= e($L) ?>">
+      <h3><?= t('review_form_title') ?></h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label><?= t('review_f_name') ?></label>
+          <input type="text" name="name" maxlength="120" placeholder="— — —" required>
+        </div>
+        <div class="form-group">
+          <label><?= t('review_f_place') ?></label>
+          <input type="text" name="location" maxlength="160" placeholder="— — —">
+        </div>
+      </div>
+      <div class="form-group">
+        <label><?= t('review_f_rating') ?></label>
+        <select name="rating">
+          <option value="5">★★★★★</option>
+          <option value="4">★★★★</option>
+          <option value="3">★★★</option>
+          <option value="2">★★</option>
+          <option value="1">★</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><?= t('review_f_text') ?></label>
+        <textarea name="text" maxlength="1500" placeholder="— — —" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-crimson" style="justify-content:center">
+        <span><?= t('review_submit') ?></span> <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </form>
   </div>
 </section>
 

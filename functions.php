@@ -103,6 +103,23 @@ function install_if_needed(): void {
             INDEX (slot)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     }
 
+    // таблица отзывов (модерация)
+    if (db_driver() === 'sqlite') {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS cc_reviews (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL DEFAULT '', location TEXT NOT NULL DEFAULT '',
+            text TEXT NOT NULL, rating INTEGER NOT NULL DEFAULT 5,
+            lang TEXT NOT NULL DEFAULT 'az', status TEXT NOT NULL DEFAULT 'pending',
+            created_at INTEGER NOT NULL DEFAULT 0)");
+    } else {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS cc_reviews (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(120) NOT NULL DEFAULT '', location VARCHAR(160) NOT NULL DEFAULT '',
+            text TEXT NOT NULL, rating INT NOT NULL DEFAULT 5,
+            lang VARCHAR(5) NOT NULL DEFAULT 'az', status VARCHAR(12) NOT NULL DEFAULT 'pending',
+            created_at INT NOT NULL DEFAULT 0, INDEX (status), INDEX (lang)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    }
+
     // маркер: установлено ли уже (чтобы не пересоздавать данные после ручного удаления)
     $done = $pdo->query("SELECT svalue FROM cc_settings WHERE skey='_installed'")->fetchColumn();
     if (!$done) {
@@ -110,8 +127,39 @@ function install_if_needed(): void {
         upsert_setting($pdo, '_installed', '1');
     }
 
-    // одноразовая миграция старой команды (team1_photo…) → динамический слот 'team'
+    // одноразовые миграции старой структуры
     migrate_team($pdo);
+    migrate_reviews($pdo);
+}
+
+/* Перенос старых фиксированных отзывов (testi1_text/role…) в таблицу cc_reviews
+   как одобренные. Выполняется один раз (маркер _reviews_migrated). */
+function migrate_reviews(PDO $pdo): void {
+    $done = $pdo->query("SELECT svalue FROM cc_settings WHERE skey='_reviews_migrated'")->fetchColumn();
+    if ($done) return;
+
+    $ins = $pdo->prepare("INSERT INTO cc_reviews (name,location,text,rating,lang,status,created_at)
+                          VALUES (?,?,?,?,?, 'approved', ?)");
+    for ($n = 1; $n <= 20; $n++) {
+        // есть ли такой старый отзыв
+        $g = $pdo->prepare("SELECT content FROM cc_texts WHERE text_key=? AND lang='az'");
+        $g->execute(["testi{$n}_text"]);
+        if ($g->fetchColumn() === false) continue;
+
+        foreach (['az','ru','en'] as $lang) {
+            $get = function($key) use ($pdo,$lang){
+                $s = $pdo->prepare("SELECT content FROM cc_texts WHERE text_key=? AND lang=?");
+                $s->execute([$key,$lang]); $v = $s->fetchColumn(); return $v === false ? '' : (string)$v;
+            };
+            $text = $get("testi{$n}_text");
+            if (trim($text) === '') continue;
+            $ins->execute([$get("testi{$n}_name"), $get("testi{$n}_role"), $text, 5, $lang, time()]);
+        }
+        foreach (['text','name','role'] as $f) {
+            $pdo->prepare("DELETE FROM cc_texts WHERE text_key=?")->execute(["testi{$n}_{$f}"]);
+        }
+    }
+    upsert_setting($pdo, '_reviews_migrated', '1');
 }
 
 /* Перенос старой фиксированной команды (team1_photo/team1_role…) в динамический
@@ -145,7 +193,7 @@ function migrate_team(PDO $pdo): void {
 
 /* Заполнение таблиц значениями по умолчанию из content-defaults.php */
 function seed_defaults(PDO $pdo): void {
-    global $DEFAULT_TEXTS, $DEFAULT_SETTINGS, $DEFAULT_IMAGES, $DEFAULT_TEAM;
+    global $DEFAULT_TEXTS, $DEFAULT_SETTINGS, $DEFAULT_IMAGES, $DEFAULT_TEAM, $DEFAULT_REVIEWS;
     $ins = sql_insert_ignore();
 
     $t = $pdo->prepare("$ins cc_texts (text_key,lang,content) VALUES (?,?,?)");
@@ -176,6 +224,16 @@ function seed_defaults(PDO $pdo): void {
             foreach (['az','ru','en'] as $lang) {
                 $t->execute(["team_{$id}_{$f}", $lang, $m[$f][$lang] ?? '']);
             }
+        }
+    }
+
+    // стартовые отзывы (по одному одобренному на каждый язык)
+    $r = $pdo->prepare("INSERT INTO cc_reviews (name,location,text,rating,lang,status,created_at)
+                        VALUES (?,?,?,?,?, 'approved', ?)");
+    foreach ($DEFAULT_REVIEWS as $rev) {
+        foreach (['az','ru','en'] as $lang) {
+            $r->execute([$rev['name'][$lang] ?? '', $rev['location'][$lang] ?? '',
+                         $rev['text'][$lang] ?? '', 5, $lang, time()]);
         }
     }
 }
@@ -269,4 +327,18 @@ function team_members(): array {
         $rows[] = ['id' => (int)$r['id'], 'path' => $r['path']];
     }
     return $rows;
+}
+
+/** одобренные отзывы для языка: [ ['name'=>,'location'=>,'text'=>,'rating'=>], … ] */
+function approved_reviews(string $lang): array {
+    $rows = [];
+    $q = db()->prepare("SELECT name,location,text,rating FROM cc_reviews WHERE status='approved' AND lang=? ORDER BY id ASC");
+    $q->execute([$lang]);
+    foreach ($q as $r) $rows[] = $r;
+    return $rows;
+}
+
+/** число отзывов в очереди на модерацию */
+function pending_reviews_count(): int {
+    return (int)db()->query("SELECT COUNT(*) FROM cc_reviews WHERE status='pending'")->fetchColumn();
 }

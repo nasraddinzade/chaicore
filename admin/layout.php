@@ -7,8 +7,10 @@ function admin_header(string $title, string $active = ''): void {
         'texts.php'    => ['Тексты',   'fa-font'],
         'images.php'   => ['Фото',     'fa-image'],
         'team.php'     => ['Команда',  'fa-users'],
+        'reviews.php'  => ['Отзывы',   'fa-star'],
         'settings.php' => ['Настройки','fa-sliders'],
     ];
+    $pendingReviews = function_exists('pending_reviews_count') ? pending_reviews_count() : 0;
     ?><!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -23,7 +25,7 @@ function admin_header(string $title, string $active = ''): void {
   <div class="a-brand"><i class="fa-solid fa-mug-hot"></i> ChaiCore <span>Admin</span></div>
   <nav class="a-nav">
     <?php foreach ($nav as $file => $item): ?>
-      <a href="<?= $file ?>" class="<?= $active === $file ? 'on' : '' ?>"><i class="fa-solid <?= $item[1] ?>"></i> <?= $item[0] ?></a>
+      <a href="<?= $file ?>" class="<?= $active === $file ? 'on' : '' ?>"><i class="fa-solid <?= $item[1] ?>"></i> <?= $item[0] ?><?php if ($file === 'reviews.php' && $pendingReviews > 0): ?> <span class="a-badge"><?= $pendingReviews ?></span><?php endif; ?></a>
     <?php endforeach; ?>
   </nav>
   <div class="a-right">
