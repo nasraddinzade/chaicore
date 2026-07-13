@@ -269,24 +269,22 @@ foreach ($mobileSections as $sec) {
     </div>
 
     <div class="team-grid">
-      <?php for ($n=1; $n<=3; $n++):
-        $delay = [0,100,200][$n-1];
-        $photo = img("team{$n}_photo");
+      <?php foreach (team_members() as $idx => $m):
+        $id = $m['id'];
+        $delay = ($idx % 3) * 100;
       ?>
       <div class="team-card" data-aos="fade-up" data-aos-delay="<?= $delay ?>">
-        <?php if (has_img("team{$n}_photo")): ?>
         <div class="team-photo">
-          <img src="<?= $photo ?>" alt="Tea Master" />
+          <img src="<?= e($m['path']) ?>" alt="Tea Master" />
         </div>
-        <?php endif; ?>
         <div class="team-info">
-          <?php if (t_raw("team{$n}_name") !== ''): ?><h3 class="team-name"><?= t("team{$n}_name") ?></h3><?php endif; ?>
-          <div class="team-role"><?= t("team{$n}_role") ?></div>
+          <?php if (t_raw("team_{$id}_name") !== ''): ?><h3 class="team-name"><?= t("team_{$id}_name") ?></h3><?php endif; ?>
+          <div class="team-role"><?= t("team_{$id}_role") ?></div>
           <div class="team-divider"></div>
-          <p class="team-desc"><?= t("team{$n}_desc") ?></p>
+          <p class="team-desc"><?= t("team_{$id}_desc") ?></p>
         </div>
       </div>
-      <?php endfor; ?>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>

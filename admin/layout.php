@@ -6,6 +6,7 @@ function admin_header(string $title, string $active = ''): void {
         'index.php'    => ['Обзор',    'fa-gauge'],
         'texts.php'    => ['Тексты',   'fa-font'],
         'images.php'   => ['Фото',     'fa-image'],
+        'team.php'     => ['Команда',  'fa-users'],
         'settings.php' => ['Настройки','fa-sliders'],
     ];
     ?><!DOCTYPE html>

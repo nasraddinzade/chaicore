@@ -105,15 +105,47 @@ function install_if_needed(): void {
 
     // маркер: установлено ли уже (чтобы не пересоздавать данные после ручного удаления)
     $done = $pdo->query("SELECT svalue FROM cc_settings WHERE skey='_installed'")->fetchColumn();
+    if (!$done) {
+        seed_defaults($pdo);
+        upsert_setting($pdo, '_installed', '1');
+    }
+
+    // одноразовая миграция старой команды (team1_photo…) → динамический слот 'team'
+    migrate_team($pdo);
+}
+
+/* Перенос старой фиксированной команды (team1_photo/team1_role…) в динамический
+   слот 'team' с текстами team_{id}_*. Выполняется один раз (маркер _team_migrated). */
+function migrate_team(PDO $pdo): void {
+    $done = $pdo->query("SELECT svalue FROM cc_settings WHERE skey='_team_migrated'")->fetchColumn();
     if ($done) return;
 
-    seed_defaults($pdo);
-    upsert_setting($pdo, '_installed', '1');
+    for ($n = 1; $n <= 20; $n++) {
+        $sel = $pdo->prepare("SELECT path FROM cc_images WHERE slot=? ORDER BY id LIMIT 1");
+        $sel->execute(["team{$n}_photo"]);
+        $path = $sel->fetchColumn();
+        if ($path === false) continue;
+
+        $pdo->prepare("INSERT INTO cc_images (slot,path,sort) VALUES ('team',?,?)")->execute([$path, $n]);
+        $newId = (int)$pdo->lastInsertId();
+
+        foreach (['name','role','desc'] as $f) {
+            foreach (['az','ru','en'] as $lang) {
+                $g = $pdo->prepare("SELECT content FROM cc_texts WHERE text_key=? AND lang=?");
+                $g->execute(["team{$n}_{$f}", $lang]);
+                $val = $g->fetchColumn();
+                if ($val !== false) upsert_text($pdo, "team_{$newId}_{$f}", $lang, (string)$val);
+            }
+            $pdo->prepare("DELETE FROM cc_texts WHERE text_key=?")->execute(["team{$n}_{$f}"]);
+        }
+        $pdo->prepare("DELETE FROM cc_images WHERE slot=?")->execute(["team{$n}_photo"]);
+    }
+    upsert_setting($pdo, '_team_migrated', '1');
 }
 
 /* Заполнение таблиц значениями по умолчанию из content-defaults.php */
 function seed_defaults(PDO $pdo): void {
-    global $DEFAULT_TEXTS, $DEFAULT_SETTINGS, $DEFAULT_IMAGES;
+    global $DEFAULT_TEXTS, $DEFAULT_SETTINGS, $DEFAULT_IMAGES, $DEFAULT_TEAM;
     $ins = sql_insert_ignore();
 
     $t = $pdo->prepare("$ins cc_texts (text_key,lang,content) VALUES (?,?,?)");
@@ -133,6 +165,18 @@ function seed_defaults(PDO $pdo): void {
         $paths = $d['multi'] ? $d['default'] : [$d['default']];
         $sort = 0;
         foreach ($paths as $p) { $i->execute([$slot, $p, $sort++]); }
+    }
+
+    // стартовые участники команды: слот 'team' + тексты team_{id}_name/role/desc
+    $sort = 0;
+    foreach ($DEFAULT_TEAM as $m) {
+        $i->execute(['team', $m['photo'], $sort++]);
+        $id = (int)$pdo->lastInsertId();
+        foreach (['name','role','desc'] as $f) {
+            foreach (['az','ru','en'] as $lang) {
+                $t->execute(["team_{$id}_{$f}", $lang, $m[$f][$lang] ?? '']);
+            }
+        }
     }
 }
 
@@ -216,4 +260,13 @@ function imgs(string $slot): array {
 /** есть ли хоть одно фото в слоте */
 function has_img(string $slot): bool {
     return !empty($GLOBALS['CC']['images'][$slot]);
+}
+
+/** участники команды: [ ['id'=>int,'path'=>string], … ] по порядку */
+function team_members(): array {
+    $rows = [];
+    foreach (db()->query("SELECT id,path FROM cc_images WHERE slot='team' ORDER BY sort,id") as $r) {
+        $rows[] = ['id' => (int)$r['id'], 'path' => $r['path']];
+    }
+    return $rows;
 }

@@ -103,15 +103,8 @@ $DEFAULT_TEXTS = [
   /* ── Команда ── */
   'team_tag'      => ['g'=>'Команда','l'=>'Метка секции','t'=>'text','az'=>'Komandamız','ru'=>'Наша Команда','en'=>'Our Team'],
   'team_title'    => ['g'=>'Команда','l'=>'Заголовок','t'=>'text','az'=>'Çay Ustalarımız','ru'=>'Наши Чайные Мастера','en'=>'Our Tea Masters'],
-  'team1_name'    => ['g'=>'Команда · Люди','l'=>'Мастер 1 — имя','t'=>'text','az'=>'','ru'=>'','en'=>''],
-  'team1_role'    => ['g'=>'Команда · Люди','l'=>'Мастер 1 — роль','t'=>'text','az'=>'Baş Çay Ustası','ru'=>'Главный Чайный Мастер','en'=>'Head Tea Master'],
-  'team1_desc'    => ['g'=>'Команда · Люди','l'=>'Мастер 1 — описание','t'=>'area','az'=>'Azərbaycan çay mədəniyyəti üzrə ekspert. 3+ il təcrübə.','ru'=>'Эксперт по азербайджанской чайной культуре. 3+ лет опыта.','en'=>'Expert in Azerbaijani tea culture. 3+ years of experience.'],
-  'team2_name'    => ['g'=>'Команда · Люди','l'=>'Мастер 2 — имя','t'=>'text','az'=>'','ru'=>'','en'=>''],
-  'team2_role'    => ['g'=>'Команда · Люди','l'=>'Мастер 2 — роль','t'=>'text','az'=>'Çay Mərasimi Ustası','ru'=>'Мастер Чайных Церемоний','en'=>'Ceremony Specialist'],
-  'team2_desc'    => ['g'=>'Команда · Люди','l'=>'Мастер 2 — описание','t'=>'area','az'=>'Tarixi hekayələndirmə və çay dequstasiyası üzrə mütəxəssis.','ru'=>'Специалист по историческому повествованию и дегустации чая.','en'=>'Specialist in historical storytelling and tea tasting.'],
-  'team3_name'    => ['g'=>'Команда · Люди','l'=>'Мастер 3 — имя','t'=>'text','az'=>'','ru'=>'','en'=>''],
-  'team3_role'    => ['g'=>'Команда · Люди','l'=>'Мастер 3 — роль','t'=>'text','az'=>'Çay Dequstasiya Mütəxəssisi','ru'=>'Специалист по Дегустации','en'=>'Tasting Specialist'],
-  'team3_desc'    => ['g'=>'Команда · Люди','l'=>'Мастер 3 — описание','t'=>'area','az'=>'Çay sortları və dəmləmə texnikası üzrə dərin biliyə sahibdir.','ru'=>'Обладает глубокими знаниями сортов чая и техники заваривания.','en'=>'Deep expertise in tea varieties and brewing techniques.'],
+  /* Участники команды (имя/роль/описание) теперь динамические — управляются
+     в админке на странице «Команда» (admin/team.php). Ключи вида team_{id}_name. */
 
   /* ── Галерея ── */
   'gal_tag'       => ['g'=>'Галерея','l'=>'Метка секции','t'=>'text','az'=>'Vizual','ru'=>'Визуальное','en'=>'Visual'],
@@ -175,9 +168,8 @@ $DEFAULT_IMAGES = [
   'about_accent' => ['g'=>'О нас','l'=>'Фото — акцент','multi'=>false,'default'=>'assets/freepik__design-a-symbolic-culturally-rich-logo-for-a-tea-b__93599 1.png'],
   'about_badge'  => ['g'=>'О нас','l'=>'Значок (дракон)','multi'=>false,'default'=>'assets/Mask group-1.png'],
   'ceremony_img' => ['g'=>'Церемония','l'=>'Фото церемонии','multi'=>false,'default'=>'assets/freepik_img2-the-half-glass-remai_2764317764 1.png'],
-  'team1_photo'  => ['g'=>'Команда','l'=>'Фото мастера 1','multi'=>false,'default'=>'assets/WhatsApp Image 2026-05-08 at 18.21.01 1.png'],
-  'team2_photo'  => ['g'=>'Команда','l'=>'Фото мастера 2','multi'=>false,'default'=>'assets/WhatsApp Image 2026-05-08 at 18.21.01 3.png'],
-  'team3_photo'  => ['g'=>'Команда','l'=>'Фото мастера 3','multi'=>false,'default'=>'assets/WhatsApp Image 2026-05-08 at 18.21.01 4.png'],
+  /* Фото участников команды — динамический слот 'team' (управляется в admin/team.php),
+     поэтому здесь его нет. Стартовые участники задаются в $DEFAULT_TEAM ниже. */
   'gallery'      => ['g'=>'Галерея','l'=>'Фотографии галереи','multi'=>true,'default'=>[
       'assets/image 2.png',
       'assets/ChatGPT Image 30 апр. 2026 г., 19_53_33 1.png',
@@ -241,4 +233,28 @@ $DEFAULT_SETTINGS = [
   /* Telegram — заявки прилетают в бота */
   'telegram_bot_token'=> ['g'=>'Telegram (заявки в бота)','l'=>'Токен бота (из BotFather)','t'=>'text','default'=>''],
   'telegram_chat_id'  => ['g'=>'Telegram (заявки в бота)','l'=>'Chat ID (куда слать заявки)','t'=>'text','default'=>''],
+];
+
+/* ═══════════════════ СТАРТОВЫЕ УЧАСТНИКИ КОМАНДЫ ═══════════════════
+   Используются только при первой установке (для наполнения). Дальше команда
+   правится через админку. name пустой = имя на сайте не показывается. */
+$DEFAULT_TEAM = [
+  [
+    'photo' => 'assets/WhatsApp Image 2026-05-08 at 18.21.01 1.png',
+    'name'  => ['az'=>'','ru'=>'','en'=>''],
+    'role'  => ['az'=>'Baş Çay Ustası','ru'=>'Главный Чайный Мастер','en'=>'Head Tea Master'],
+    'desc'  => ['az'=>'Azərbaycan çay mədəniyyəti üzrə ekspert. 3+ il təcrübə.','ru'=>'Эксперт по азербайджанской чайной культуре. 3+ лет опыта.','en'=>'Expert in Azerbaijani tea culture. 3+ years of experience.'],
+  ],
+  [
+    'photo' => 'assets/WhatsApp Image 2026-05-08 at 18.21.01 3.png',
+    'name'  => ['az'=>'','ru'=>'','en'=>''],
+    'role'  => ['az'=>'Çay Mərasimi Ustası','ru'=>'Мастер Чайных Церемоний','en'=>'Ceremony Specialist'],
+    'desc'  => ['az'=>'Tarixi hekayələndirmə və çay dequstasiyası üzrə mütəxəssis.','ru'=>'Специалист по историческому повествованию и дегустации чая.','en'=>'Specialist in historical storytelling and tea tasting.'],
+  ],
+  [
+    'photo' => 'assets/WhatsApp Image 2026-05-08 at 18.21.01 4.png',
+    'name'  => ['az'=>'','ru'=>'','en'=>''],
+    'role'  => ['az'=>'Çay Dequstasiya Mütəxəssisi','ru'=>'Специалист по Дегустации','en'=>'Tasting Specialist'],
+    'desc'  => ['az'=>'Çay sortları və dəmləmə texnikası üzrə dərin biliyə sahibdir.','ru'=>'Обладает глубокими знаниями сортов чая и техники заваривания.','en'=>'Deep expertise in tea varieties and brewing techniques.'],
+  ],
 ];

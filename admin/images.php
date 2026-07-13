@@ -145,14 +145,7 @@ $csrf = csrf_field();
           </label>
           <button type="submit" class="a-btn sm img-go" style="display:none"><i class="fa-solid fa-check"></i> Заменить</button>
         </form>
-        <?php if ($row): ?>
-        <form method="post" action="images.php" onsubmit="return confirm('Удалить это фото?')">
-          <?= $csrf ?>
-          <input type="hidden" name="action" value="delete_slot">
-          <input type="hidden" name="slot" value="<?= e($slot) ?>">
-          <button type="submit" class="a-btn ghost sm"><i class="fa-solid fa-trash"></i> Удалить</button>
-        </form>
-        <?php endif; ?>
+        <div class="img-note"><i class="fa-solid fa-lock"></i> Фото можно только заменить</div>
       </div>
     <?php else: ?>
       <div class="img-slot img-slot-multi">
