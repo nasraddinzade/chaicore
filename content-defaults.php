@@ -26,6 +26,9 @@ $DEFAULT_TEXTS = [
   'nav_services'  => ['g'=>'Меню','l'=>'Пункт: Услуги','t'=>'text','az'=>'Xidmətlər','ru'=>'Услуги','en'=>'Services'],
   'nav_gallery'   => ['g'=>'Меню','l'=>'Пункт: Галерея','t'=>'text','az'=>'Qalereya','ru'=>'Галерея','en'=>'Gallery'],
   'nav_contact'   => ['g'=>'Меню','l'=>'Пункт: Контакты','t'=>'text','az'=>'Əlaqə','ru'=>'Контакты','en'=>'Contact'],
+  'nav_ceremony'  => ['g'=>'Меню','l'=>'Пункт: Церемония','t'=>'text','az'=>'Mərasim','ru'=>'Церемония','en'=>'Ceremony'],
+  'nav_team'      => ['g'=>'Меню','l'=>'Пункт: Команда','t'=>'text','az'=>'Komanda','ru'=>'Команда','en'=>'Team'],
+  'nav_testimonials'=>['g'=>'Меню','l'=>'Пункт: Отзывы','t'=>'text','az'=>'Rəylər','ru'=>'Отзывы','en'=>'Reviews'],
 
   /* ── Hero ── */
   'hero_eyebrow'  => ['g'=>'Главный экран','l'=>'Надзаголовок','t'=>'text','az'=>'Azərbaycan Çay Mədəniyyəti','ru'=>'Азербайджанская Чайная Культура','en'=>'Azerbaijani Tea Culture'],

@@ -61,7 +61,7 @@ foreach ($colorMap as $skey => $cssvar) {
     @media (max-width: 580px){
       html{ font-size: calc(100% * var(--font-scale) * var(--scale-mobile)); }
 <?php foreach ($mobileHidden as $sec): ?>
-      #<?= $sec ?>, .nav-links li[data-sec="<?= $sec ?>"]{ display: none !important; }
+      #<?= $sec ?>, [data-sec="<?= $sec ?>"]{ display: none !important; }
 <?php endforeach; ?>
     }
   </style>
@@ -104,7 +104,10 @@ foreach ($colorMap as $skey => $cssvar) {
       <li data-sec="about"><a href="#about"><?= t('nav_about') ?></a></li>
       <li data-sec="philosophy"><a href="#philosophy"><?= t('nav_philosophy') ?></a></li>
       <li data-sec="services"><a href="#services"><?= t('nav_services') ?></a></li>
+      <li class="nav-extra" data-sec="ceremony"><a href="#ceremony"><?= t('nav_ceremony') ?></a></li>
+      <li class="nav-extra" data-sec="team"><a href="#team"><?= t('nav_team') ?></a></li>
       <li data-sec="gallery"><a href="#gallery"><?= t('nav_gallery') ?></a></li>
+      <li class="nav-extra" data-sec="testimonials"><a href="#testimonials"><?= t('nav_testimonials') ?></a></li>
       <li data-sec="contact"><a href="#contact"><?= t('nav_contact') ?></a></li>
     </ul>
 
@@ -138,8 +141,8 @@ foreach ($colorMap as $skey => $cssvar) {
       <div class="ornament"><i class="fa-solid fa-leaf"></i></div>
       <p class="hero-desc"><?= t('hero_desc') ?></p>
       <div class="hero-actions">
-        <a href="#ceremony" class="btn btn-crimson"><i class="fa-solid fa-mug-hot"></i> <?= t('hero_btn1') ?></a>
-        <a href="#contact" class="btn btn-outline"><i class="fa-solid fa-calendar"></i> <?= t('hero_btn2') ?></a>
+        <a href="#ceremony" data-sec="ceremony" class="btn btn-crimson"><i class="fa-solid fa-mug-hot"></i> <?= t('hero_btn1') ?></a>
+        <a href="#contact" data-sec="contact" class="btn btn-outline"><i class="fa-solid fa-calendar"></i> <?= t('hero_btn2') ?></a>
       </div>
     </div>
   </div>

@@ -143,6 +143,29 @@ function install_if_needed(): void {
     // одноразовые миграции старой структуры
     migrate_team($pdo);
     migrate_reviews($pdo);
+
+    // досев новых текстов/настроек, добавленных в content-defaults после установки
+    sync_missing($pdo);
+}
+
+/* INSERT IGNORE всех дефолтных текстов и настроек: добавляет только новые ключи,
+   существующие (в т.ч. изменённые в админке) не трогает. Выполняется один раз на
+   каждую версию набора дефолтов (маркер _content_ver). */
+function sync_missing(PDO $pdo): void {
+    $ver = '2026-07-14a';
+    $cur = $pdo->query("SELECT svalue FROM cc_settings WHERE skey='_content_ver'")->fetchColumn();
+    if ($cur === $ver) return;
+
+    global $DEFAULT_TEXTS, $DEFAULT_SETTINGS;
+    $ins = sql_insert_ignore();
+    $t = $pdo->prepare("$ins cc_texts (text_key,lang,content) VALUES (?,?,?)");
+    foreach ($DEFAULT_TEXTS as $key => $d) {
+        foreach (['az','ru','en'] as $l) $t->execute([$key, $l, $d[$l] ?? '']);
+    }
+    $s = $pdo->prepare("$ins cc_settings (skey,svalue) VALUES (?,?)");
+    foreach ($DEFAULT_SETTINGS as $key => $d) $s->execute([$key, $d['default'] ?? '']);
+
+    upsert_setting($pdo, '_content_ver', $ver);
 }
 
 /* Перенос старых фиксированных отзывов (testi1_text/role…) в таблицу cc_reviews
@@ -295,17 +318,24 @@ function e($s): string { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'
 /** текущий язык */
 function lang(): string { return $GLOBALS['CC']['lang']; }
 
-/** текст по ключу (текущий язык, откат на az → пустая строка). Экранированный. */
-function t(string $key, ?string $lang = null): string {
-    $lang = $lang ?? $GLOBALS['CC']['lang'];
-    $v = $GLOBALS['CC']['texts'][$key][$lang] ?? ($GLOBALS['CC']['texts'][$key]['az'] ?? '');
-    return e($v);
+/** значение текста: БД → откат на az → дефолт из content-defaults → '' */
+function text_val(string $key, string $lang): string {
+    global $DEFAULT_TEXTS;
+    return $GLOBALS['CC']['texts'][$key][$lang]
+        ?? $GLOBALS['CC']['texts'][$key]['az']
+        ?? $DEFAULT_TEXTS[$key][$lang]
+        ?? $DEFAULT_TEXTS[$key]['az']
+        ?? '';
 }
 
-/** текст по ключу БЕЗ экранирования (для случаев, где нужен сырой) */
+/** текст по ключу (текущий язык). Экранированный. */
+function t(string $key, ?string $lang = null): string {
+    return e(text_val($key, $lang ?? $GLOBALS['CC']['lang']));
+}
+
+/** текст по ключу БЕЗ экранирования */
 function t_raw(string $key, ?string $lang = null): string {
-    $lang = $lang ?? $GLOBALS['CC']['lang'];
-    return $GLOBALS['CC']['texts'][$key][$lang] ?? ($GLOBALS['CC']['texts'][$key]['az'] ?? '');
+    return text_val($key, $lang ?? $GLOBALS['CC']['lang']);
 }
 
 /** настройка по ключу (экранированная) */

@@ -693,11 +693,17 @@
       opacity: 0; animation: menu-item .45s ease forwards;
     }
     .nav-mobile-open .nav-links li:last-child { border-bottom: none; }
-    .nav-mobile-open .nav-links li:nth-child(1) { animation-delay: .08s; }
-    .nav-mobile-open .nav-links li:nth-child(2) { animation-delay: .14s; }
-    .nav-mobile-open .nav-links li:nth-child(3) { animation-delay: .20s; }
-    .nav-mobile-open .nav-links li:nth-child(4) { animation-delay: .26s; }
-    .nav-mobile-open .nav-links li:nth-child(5) { animation-delay: .32s; }
+    /* пункты Церемония/Команда/Отзывы: только в мобильном меню (на десктопе скрыты) */
+    .nav-links li.nav-extra { display: none; }
+    .nav-mobile-open .nav-links li.nav-extra { display: block; }
+    .nav-mobile-open .nav-links li:nth-child(1) { animation-delay: .06s; }
+    .nav-mobile-open .nav-links li:nth-child(2) { animation-delay: .11s; }
+    .nav-mobile-open .nav-links li:nth-child(3) { animation-delay: .16s; }
+    .nav-mobile-open .nav-links li:nth-child(4) { animation-delay: .21s; }
+    .nav-mobile-open .nav-links li:nth-child(5) { animation-delay: .26s; }
+    .nav-mobile-open .nav-links li:nth-child(6) { animation-delay: .31s; }
+    .nav-mobile-open .nav-links li:nth-child(7) { animation-delay: .36s; }
+    .nav-mobile-open .nav-links li:nth-child(8) { animation-delay: .41s; }
     @keyframes menu-item { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
     .nav-mobile-open .nav-links a {
