@@ -17,6 +17,20 @@ foreach ($mobileSections as $sec) {
     $def = $DEFAULT_SETTINGS[$key]['default'] ?? '1';
     if (s_raw($key, $def) !== '1') $mobileHidden[] = $sec;
 }
+
+// цвета сайта из настроек → CSS-переменные (перекрывают styles.css)
+$colorMap = [
+    'col_navy'=>'--navy','col_navy2'=>'--navy-2','col_navy3'=>'--navy-3',
+    'col_crimson'=>'--crimson','col_crimson2'=>'--crimson-2',
+    'col_orange'=>'--orange','col_orange2'=>'--orange-2','col_orangedim'=>'--orange-dim',
+    'col_cream'=>'--cream','col_cream2'=>'--cream-2',
+    'col_text'=>'--text','col_textdim'=>'--text-dim',
+];
+$colorCss = '';
+foreach ($colorMap as $skey => $cssvar) {
+    $val = s_raw($skey, $DEFAULT_SETTINGS[$skey]['default'] ?? '');
+    if (preg_match('/^#[0-9a-fA-F]{6}$/', $val)) $colorCss .= "$cssvar:$val;";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?= e($L) ?>">
@@ -39,6 +53,7 @@ foreach ($mobileSections as $sec) {
       --scale-hero: <?= $fsh ?>;
       --scale-section: <?= $fss ?>;
       --scale-mobile: <?= $fsm ?>;
+      <?= $colorCss ?>
     }
     html{ font-size: calc(100% * var(--font-scale)); }
     .hero-title{ font-size: calc(clamp(3.2rem, 9vw, 6.5rem) * var(--scale-hero)); }
