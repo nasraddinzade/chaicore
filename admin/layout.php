@@ -8,6 +8,7 @@ function admin_header(string $title, string $active = ''): void {
         'images.php'   => ['Фото',     'fa-image'],
         'team.php'     => ['Команда',  'fa-users'],
         'reviews.php'  => ['Отзывы',   'fa-star'],
+        'sections.php' => ['Разделы',  'fa-layer-group'],
         'settings.php' => ['Настройки','fa-sliders'],
     ];
     $pendingReviews = function_exists('pending_reviews_count') ? pending_reviews_count() : 0;

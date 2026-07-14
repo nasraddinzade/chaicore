@@ -120,6 +120,19 @@ function install_if_needed(): void {
             created_at INT NOT NULL DEFAULT 0, INDEX (status), INDEX (lang)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     }
 
+    // пользовательские разделы (конструктор)
+    if (db_driver() === 'sqlite') {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS cc_sections (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, sort INTEGER NOT NULL DEFAULT 0,
+            bg INTEGER NOT NULL DEFAULT 0, visible INTEGER NOT NULL DEFAULT 1,
+            created_at INTEGER NOT NULL DEFAULT 0)");
+    } else {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS cc_sections (
+            id INT AUTO_INCREMENT PRIMARY KEY, sort INT NOT NULL DEFAULT 0,
+            bg INT NOT NULL DEFAULT 0, visible INT NOT NULL DEFAULT 1,
+            created_at INT NOT NULL DEFAULT 0) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    }
+
     // маркер: установлено ли уже (чтобы не пересоздавать данные после ручного удаления)
     $done = $pdo->query("SELECT svalue FROM cc_settings WHERE skey='_installed'")->fetchColumn();
     if (!$done) {
@@ -341,4 +354,13 @@ function approved_reviews(string $lang): array {
 /** число отзывов в очереди на модерацию */
 function pending_reviews_count(): int {
     return (int)db()->query("SELECT COUNT(*) FROM cc_reviews WHERE status='pending'")->fetchColumn();
+}
+
+/** видимые пользовательские разделы: [ ['id'=>int,'bg'=>int], … ] по порядку */
+function custom_sections(): array {
+    $rows = [];
+    foreach (db()->query("SELECT id,bg FROM cc_sections WHERE visible=1 ORDER BY sort,id") as $r) {
+        $rows[] = ['id' => (int)$r['id'], 'bg' => (int)$r['bg']];
+    }
+    return $rows;
 }

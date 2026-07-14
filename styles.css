@@ -749,3 +749,8 @@
       font-size: 1.2rem; color: var(--cream); margin-bottom: 22px;
     }
     .review-form select option { background: var(--navy-3); }
+
+    /* ── ПОЛЬЗОВАТЕЛЬСКИЕ РАЗДЕЛЫ (конструктор) ──────── */
+    .cs-image { max-width: 900px; margin: 0 auto 30px; border-radius: var(--r); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+    .cs-image img { width: 100%; display: block; }
+    .cs-body { max-width: 760px; margin: 0 auto; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); line-height: 1.85; }

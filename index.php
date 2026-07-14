@@ -405,6 +405,30 @@ foreach ($colorMap as $skey => $cssvar) {
   </div>
 </section>
 
+<!-- ════════════════ CUSTOM SECTIONS (конструктор) ════════════════ -->
+<?php foreach (custom_sections() as $cs): $id = $cs['id'];
+  $csTag = t("sec_{$id}_tag"); $csTitle = t("sec_{$id}_title"); $csBodyRaw = t_raw("sec_{$id}_body");
+  if (trim($csTitle) === '' && trim($csBodyRaw) === '' && !has_img("section_{$id}")) continue;
+?>
+<section id="sec-<?= $id ?>" class="custom-section" style="background: var(<?= $cs['bg'] ? '--navy-2' : '--navy' ?>);">
+  <div class="container">
+    <?php if (trim($csTag) !== '' || trim($csTitle) !== ''): ?>
+    <div class="section-header centered" data-aos="fade-up">
+      <?php if (trim($csTag) !== ''): ?><span class="section-tag"><?= $csTag ?></span><?php endif; ?>
+      <?php if (trim($csTitle) !== ''): ?><h2 class="section-title"><?= $csTitle ?></h2><?php endif; ?>
+      <div class="ornament"><i class="fa-solid fa-leaf"></i></div>
+    </div>
+    <?php endif; ?>
+    <?php if (has_img("section_{$id}")): ?>
+    <div class="cs-image" data-aos="fade-up"><img src="<?= img("section_{$id}") ?>" alt=""></div>
+    <?php endif; ?>
+    <?php if (trim($csBodyRaw) !== ''): ?>
+    <div class="cs-body" data-aos="fade-up"><?= nl2br(t("sec_{$id}_body")) ?></div>
+    <?php endif; ?>
+  </div>
+</section>
+<?php endforeach; ?>
+
 <!-- ════════════════ CONTACT ════════════════ -->
 <section id="contact">
   <div class="container">
