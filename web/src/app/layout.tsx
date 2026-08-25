@@ -1,6 +1,6 @@
 /**
  * ÇAYCORE — сайт (Next.js клиент).
- * © 2026 ÇAYCORE. Все права защищены. Проприетарный код — см. LICENSE в корне репозитория.
+ * © 2026 ÇAYCORE. Лицензия MIT — см. LICENSE в корне репозитория.
  */
 import "./globals.css";
 import type { Metadata } from "next";
