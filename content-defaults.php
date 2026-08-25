@@ -194,7 +194,7 @@ $DEFAULT_SETTINGS = [
   'brand_name'   => ['g'=>'Общее','l'=>'Название бренда','t'=>'text','default'=>'ChaiCore'],
   'site_title'   => ['g'=>'Общее','l'=>'Заголовок вкладки (SEO)','t'=>'text','default'=>'ChaiCore — Azərbaycan Çay Mədəniyyəti'],
   'default_lang' => ['g'=>'Общее','l'=>'Язык по умолчанию (az/ru/en)','t'=>'text','default'=>'az'],
-  'copyright_year'=>['g'=>'Общее','l'=>'Год в копирайте','t'=>'text','default'=>'2024'],
+  'copyright_year'=>['g'=>'Общее','l'=>'Год в копирайте','t'=>'text','default'=>'2026'],
 
   /* Размеры шрифтов (в процентах, 100 = обычный) */
   'font_scale'   => ['g'=>'Размеры шрифтов','l'=>'Общий масштаб текста, % (весь сайт)','t'=>'number','default'=>'100'],

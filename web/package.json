@@ -2,6 +2,9 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
+  "author": "ÇAYCORE",
+  "license": "UNLICENSED",
+  "description": "ÇAYCORE — сайт (Next.js клиент). © 2026 ÇAYCORE. Все права защищены.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,4 +1,8 @@
 <?php
+/**
+ * ÇAYCORE — сайт (PHP-клиент).
+ * © 2026 ÇAYCORE. Все права защищены. Проприетарный код — см. LICENSE.
+ */
 require_once __DIR__ . '/functions.php';
 boot();
 $L = lang();
